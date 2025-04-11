@@ -106,8 +106,7 @@ export default function Home() {
               className="mt-4 w-full text-sm text-green-800 bg-green-100 border border-green-300 px-4 py-3 rounded shadow-sm"
               role="alert"
             >
-              Usuário autenticado com sucesso! Redirecionando para o
-              dashboard...
+              Usuário autenticado com sucesso!
             </div>
           )}
 

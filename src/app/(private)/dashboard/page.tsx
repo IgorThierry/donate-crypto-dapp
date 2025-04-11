@@ -33,7 +33,7 @@ export default function DashboardPage() {
       <div className="max-w-7xl mx-auto px-4 py-12">
         <div className="flex justify-between items-center mb-8">
           <h1 className="text-3xl font-bold">Campaign Dashboard</h1>
-          <Link href="/create-campaign">
+          <Link href="/campaigns/create">
             <Button className="bg-blue-600 hover:bg-blue-700">
               <Plus className="mr-2 h-4 w-4" /> Create Campaign
             </Button>
@@ -189,7 +189,7 @@ export default function DashboardPage() {
                                       <span className="sr-only">View</span>
                                     </Button>
                                   </Link>
-                                  <Link href={`/edit-campaign/${campaign.id}`}>
+                                  <Link href={`/campaigns/${campaign.id}/edit`}>
                                     <Button variant="ghost" size="sm">
                                       <Edit className="h-4 w-4" />
                                       <span className="sr-only">Edit</span>
@@ -235,7 +235,7 @@ export default function DashboardPage() {
                   <p className="text-muted-foreground mb-4">
                     You haven't created any campaigns yet.
                   </p>
-                  <Link href="/create">
+                  <Link href="/campaigns/create">
                     <Button className="bg-blue-600 hover:bg-blue-700">
                       Create Your First Campaign
                     </Button>

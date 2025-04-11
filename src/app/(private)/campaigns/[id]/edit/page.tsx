@@ -23,6 +23,7 @@ export default function EditCampaign() {
   const params = useParams()
   const router = useRouter()
   const campaignId = params.id as string
+  console.log(campaignId)
 
   const [formData, setFormData] = useState({
     title: '',

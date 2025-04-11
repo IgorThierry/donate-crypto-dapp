@@ -59,6 +59,7 @@ interface Campaign {
   balance: string // Representa o tipo 'uint256' em Solidity
   supporters: number // Representa o tipo 'uint256' em Solidity
   active: boolean
+  createdAt: number // Timestamp
 }
 
 export default function CampaignDetailsPage({
@@ -85,6 +86,7 @@ export default function CampaignDetailsPage({
     active: true,
     videoUrl: 'https://www.youtube.com/embed/dQw4w9WgXcQ', // Example YouTube video
     supporters: 28,
+    createdAt: Date.now(),
   }
 
   // Extract value and currency from balance
@@ -97,13 +99,13 @@ export default function CampaignDetailsPage({
   }
 
   // Format date to be more readable
-  const formatDate = (dateString: string) => {
+  const formatDate = (dateTimeStamp: number) => {
     const options: Intl.DateTimeFormatOptions = {
       year: 'numeric',
       month: 'long',
       day: 'numeric',
     }
-    return new Date(dateString).toLocaleDateString('en-US', options)
+    return new Date(dateTimeStamp).toLocaleDateString('en-US', options)
   }
 
   return (
@@ -164,10 +166,10 @@ export default function CampaignDetailsPage({
                 <Badge variant={campaign.active ? 'default' : 'outline'}>
                   {campaign.active ? 'Active' : 'Inactive'}
                 </Badge>
-                {/* <div className="flex items-center text-sm text-muted-foreground">
-                <Calendar className="mr-1 h-4 w-4" />
-                Created on {formatDate(campaign.created_at)}
-              </div> */}
+                <div className="flex items-center text-sm text-muted-foreground">
+                  <Calendar className="mr-1 h-4 w-4" />
+                  Created on {formatDate(campaign.createdAt)}
+                </div>
               </div>
             </div>
 
@@ -215,12 +217,12 @@ export default function CampaignDetailsPage({
                       </Badge>
                     </div>
 
-                    {/* <div>
-                    <h3 className="text-sm font-medium text-muted-foreground">
-                      Created
-                    </h3>
-                    <p>{formatDate(campaign.created_at)}</p>
-                  </div> */}
+                    <div>
+                      <h3 className="text-sm font-medium text-muted-foreground">
+                        Created
+                      </h3>
+                      <p>{formatDate(campaign.createdAt)}</p>
+                    </div>
                     <div>
                       <h3 className="text-sm font-medium text-muted-foreground">
                         Donors
