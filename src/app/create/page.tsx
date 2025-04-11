@@ -1,17 +1,21 @@
 'use client'
 
 import type React from 'react'
-
 import { useState, type FormEvent } from 'react'
+import { useRouter } from 'next/navigation'
 import Link from 'next/link'
+import { ArrowLeft } from 'lucide-react'
 
 export default function CreateCampaign() {
+  const router = useRouter()
   const [formData, setFormData] = useState({
     title: '',
     description: '',
     imageUrl: '',
     videoUrl: '',
   })
+  const [isSubmitting, setIsSubmitting] = useState(false)
+  const [isEdit, setIsEdit] = useState(false)
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
@@ -20,47 +24,51 @@ export default function CreateCampaign() {
     setFormData((prev) => ({ ...prev, [name]: value }))
   }
 
-  const handleSubmit = (e: FormEvent) => {
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault()
-    // Here you would handle the form submission
-    console.log('Form submitted:', formData)
-    // Reset form or redirect user
+    setIsSubmitting(true)
+
+    try {
+      // Simulate API call
+      await new Promise((resolve) => setTimeout(resolve, 1000))
+      console.log('Form submitted:', formData)
+
+      // Redirect to dashboard after successful submission
+      router.push('/dashboard')
+    } catch (error) {
+      console.error('Error submitting form:', error)
+    } finally {
+      setIsSubmitting(false)
+    }
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gray-50 pt-16">
       <div className="max-w-3xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
         <div className="mb-8">
           <Link
-            href="/"
+            href="/dashboard"
             className="text-blue-600 hover:text-blue-800 flex items-center"
           >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="h-5 w-5 mr-1"
-              viewBox="0 0 20 20"
-              fill="currentColor"
-            >
-              <path
-                fillRule="evenodd"
-                d="M9.707 14.707a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 1.414L7.414 9H15a1 1 0 110 2H7.414l2.293 2.293a1 1 0 010 1.414z"
-                clipRule="evenodd"
-              />
-            </svg>
-            Voltar para Home
+            <ArrowLeft className="h-5 w-5 mr-1" />
+            Back to Dashboard
           </Link>
         </div>
 
         <div className="bg-white shadow-md rounded-lg p-6 md:p-8">
           <h1 className="text-3xl font-bold text-gray-900 mb-4">
-            Donate Crypto
+            {isEdit ? 'Edit Campaign' : 'Create Campaign'}
           </h1>
 
           <div className="mb-8 space-y-2 text-gray-600">
-            <p>Preencha os campos para incluir sua campanha na plataforma.</p>
             <p>
-              Ao término do cadastro, você receberá o link para divulgá-la e
-              receber as doações.
+              Fill in the fields to {isEdit ? 'update your' : 'include your'}{' '}
+              campaign on the platform.
+            </p>
+            <p>
+              {isEdit
+                ? 'Your changes will be reflected immediately after saving.'
+                : 'After registration, you will receive a link to share it and receive donations.'}
             </p>
           </div>
 
@@ -70,7 +78,7 @@ export default function CreateCampaign() {
                 htmlFor="title"
                 className="block text-sm font-medium text-gray-700 mb-1"
               >
-                Título da Campanha
+                Campaign Title
               </label>
               <input
                 type="text"
@@ -80,7 +88,7 @@ export default function CreateCampaign() {
                 onChange={handleChange}
                 required
                 className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                placeholder="Digite o título da sua campanha"
+                placeholder="Enter your campaign title"
               />
             </div>
 
@@ -89,7 +97,7 @@ export default function CreateCampaign() {
                 htmlFor="description"
                 className="block text-sm font-medium text-gray-700 mb-1"
               >
-                Descrição
+                Description
               </label>
               <textarea
                 id="description"
@@ -99,7 +107,7 @@ export default function CreateCampaign() {
                 required
                 rows={5}
                 className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                placeholder="Descreva sua campanha em detalhes"
+                placeholder="Describe your campaign in detail"
               />
             </div>
 
@@ -108,7 +116,7 @@ export default function CreateCampaign() {
                 htmlFor="imageUrl"
                 className="block text-sm font-medium text-gray-700 mb-1"
               >
-                URL da Imagem
+                Image URL
               </label>
               <input
                 type="url"
@@ -117,7 +125,7 @@ export default function CreateCampaign() {
                 value={formData.imageUrl}
                 onChange={handleChange}
                 className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                placeholder="https://exemplo.com/imagem.jpg"
+                placeholder="https://example.com/image.jpg"
               />
             </div>
 
@@ -126,7 +134,7 @@ export default function CreateCampaign() {
                 htmlFor="videoUrl"
                 className="block text-sm font-medium text-gray-700 mb-1"
               >
-                URL do Vídeo
+                Video URL
               </label>
               <input
                 type="url"
@@ -135,16 +143,25 @@ export default function CreateCampaign() {
                 value={formData.videoUrl}
                 onChange={handleChange}
                 className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                placeholder="https://youtube.com/watch?v=exemplo"
+                placeholder="https://youtube.com/watch?v=example"
               />
             </div>
 
-            <div className="pt-4">
+            <div className="pt-4 flex justify-between">
+              <Link href="/dashboard">
+                <button
+                  type="button"
+                  className="px-6 py-3 bg-gray-200 hover:bg-gray-300 text-gray-800 font-medium rounded-md transition-colors focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2"
+                >
+                  Cancel
+                </button>
+              </Link>
               <button
                 type="submit"
-                className="w-full md:w-auto px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-md transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+                disabled={isSubmitting}
+                className="px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-md transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:opacity-70"
               >
-                Salvar
+                {isSubmitting ? 'Saving...' : 'Save Campaign'}
               </button>
             </div>
           </form>
