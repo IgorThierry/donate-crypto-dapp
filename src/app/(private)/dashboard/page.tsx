@@ -16,7 +16,7 @@ import { Button } from '@/components/ui/button'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { Badge } from '@/components/ui/badge'
 
-import { recentCampaigns, userCampaigns } from './mocks'
+import { recentCampaigns, userCampaigns } from '@/utils/mocks'
 
 export default function DashboardPage() {
   const [isLoggedIn, setIsLoggedIn] = useState(true)
@@ -71,15 +71,11 @@ export default function DashboardPage() {
                         {campaign.balance}
                       </span>
                     </div>
-                    <div className="mt-4 w-full bg-gray-200 rounded-full h-2.5">
-                      <div
-                        className="bg-blue-600 h-2.5 rounded-full"
-                        style={{ width: `${Math.random() * 100}%` }}
-                      ></div>
-                    </div>
                   </CardContent>
                   <CardFooter className="flex justify-between">
-                    <Button variant="outline">View Details</Button>
+                    <Link href={`/campaigns/${campaign.id}`}>
+                      <Button variant="outline">View Details</Button>
+                    </Link>
                     <Button className="bg-blue-600 hover:bg-blue-700">
                       Donate
                     </Button>
@@ -187,7 +183,7 @@ export default function DashboardPage() {
                               </td>
                               <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                                 <div className="flex justify-end space-x-2">
-                                  <Link href={`/campaign/${campaign.id}`}>
+                                  <Link href={`/campaigns/${campaign.id}`}>
                                     <Button variant="ghost" size="sm">
                                       <ExternalLink className="h-4 w-4" />
                                       <span className="sr-only">View</span>

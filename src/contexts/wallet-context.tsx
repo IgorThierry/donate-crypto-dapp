@@ -8,6 +8,7 @@ import {
   type ReactNode,
 } from 'react'
 import { useRouter } from 'next/navigation'
+import { deleteCookie, setCookie, getCookie } from 'cookies-next/client'
 
 // Tipos para o contexto
 type WalletContextType = {
@@ -67,8 +68,7 @@ export function WalletProvider({ children }: { children: ReactNode }) {
       setBalance('0.5')
       setIsConnected(true)
 
-      // Salvar no localStorage
-      localStorage.setItem('isWalletConnected', 'true')
+      setCookie('isWalletConnected', 'true')
     } catch (error: Error | unknown) {
       console.error('Erro ao conectar com MetaMask:', error)
       let errorMessage = 'Erro ao conectar com MetaMask'
@@ -87,7 +87,7 @@ export function WalletProvider({ children }: { children: ReactNode }) {
     setChainId(null)
     setBalance(null)
     setIsConnected(false)
-    localStorage.removeItem('isWalletConnected')
+    deleteCookie('isWalletConnected')
 
     router.push('/')
   }
@@ -95,8 +95,7 @@ export function WalletProvider({ children }: { children: ReactNode }) {
   // Verificar se o usuário já estava conectado anteriormente
   useEffect(() => {
     const checkConnection = async () => {
-      const isWalletConnected =
-        localStorage.getItem('isWalletConnected') === 'true'
+      const isWalletConnected = getCookie('isWalletConnected') === 'true'
 
       if (isWalletConnected) {
         await connectWallet()

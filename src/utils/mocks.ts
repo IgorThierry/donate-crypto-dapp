@@ -53,6 +53,7 @@ export const userCampaigns = [
     image_url: '/placeholder.svg?height=200&width=400',
     created_at: '2023-10-15',
     status: 'active',
+    video_url: '',
   },
   {
     id: 102,
@@ -63,6 +64,7 @@ export const userCampaigns = [
     image_url: '/placeholder.svg?height=200&width=400',
     created_at: '2023-09-22',
     status: 'active',
+    video_url: '',
   },
   {
     id: 103,
@@ -73,5 +75,6 @@ export const userCampaigns = [
     image_url: '/placeholder.svg?height=200&width=400',
     created_at: '2023-11-05',
     status: 'active',
+    video_url: '',
   },
 ]
