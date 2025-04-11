@@ -11,6 +11,7 @@ import {
   Share2,
   Users,
 } from 'lucide-react'
+import { useParams } from 'next/navigation'
 
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
@@ -62,17 +63,14 @@ interface Campaign {
   createdAt: number // Timestamp
 }
 
-export default function CampaignDetailsPage({
-  params,
-}: {
-  params: { id: string }
-}) {
+export default function CampaignDetailsPage() {
   const [donationAmount, setDonationAmount] = useState('0.1')
   const [currency, setCurrency] = useState('ETH')
   const [isDialogOpen, setIsDialogOpen] = useState(false)
 
   // In a real scenario, you would fetch campaign data based on the ID
-  /* const campaignId = params.id */
+  const params = useParams()
+  const campaignId = params.id // isso será uma string (ou undefined)
 
   // Example campaign with YouTube video
   const campaign: Campaign = {
