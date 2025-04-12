@@ -1,13 +1,14 @@
 import Link from 'next/link'
+import { cookies } from 'next/headers'
 import { Plus } from 'lucide-react'
 
 import { Button } from '@/components/ui/button'
-import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs'
+import { DashboardTab, TabOption } from './DasbordTab'
 
-import { TabUserCampaigns } from './tab-user-campaigns'
-import { TabRecentCampaings } from './tab-recent-campaigns'
+export default async function DashboardPage() {
+  const cookieStore = await cookies()
+  const activeTabCookie = cookieStore.get('activeTab')?.value || 'recent'
 
-export default function DashboardPage() {
   return (
     <div className="pt-16 min-h-screen bg-gray-50">
       <div className="max-w-7xl mx-auto px-4 py-12">
@@ -20,15 +21,7 @@ export default function DashboardPage() {
           </Link>
         </div>
 
-        <Tabs defaultValue="recent" className="mb-8">
-          <TabsList className="mb-4">
-            <TabsTrigger value="recent">Recent Campaigns</TabsTrigger>
-            <TabsTrigger value="my-campaigns">My Campaigns</TabsTrigger>
-          </TabsList>
-
-          <TabRecentCampaings />
-          <TabUserCampaigns />
-        </Tabs>
+        <DashboardTab initialTab={activeTabCookie as TabOption} />
       </div>
     </div>
   )

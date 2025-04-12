@@ -1,6 +1,7 @@
-import { MyContract } from '@/_types/contract'
+import { Campaign, CampaignRaw, MyContract } from '@/_types/contract'
 import Web3 from 'web3'
 import ABI from './ABI.json'
+import { getCookie } from 'cookies-next/client'
 
 const CONTRACT_ADDRESS = '0x26528e2b7932d049BB9e5dA351962c65F2aFF0fE'
 
@@ -22,6 +23,7 @@ export class Web3Provider {
     }
 
     this.web3 = new Web3(ethereum)
+    this.account = getCookie('wallet') || null
   }
 
   static getInstance(ethereum: unknown): Web3Provider {
@@ -75,6 +77,44 @@ export class Web3Provider {
   async getLastCampaignId() {
     const contract = this.getContract()
     return contract.methods.nextId().call()
+  }
+
+  async getRecentCampaigns(): Promise<Campaign[]> {
+    const contract = this.getContract()
+    const data: CampaignRaw[] = await contract.methods
+      .getRecentCampaigns()
+      .call()
+    return data.map((item) => ({
+      author: item.author,
+      title: item.title,
+      description: item.description,
+      videoUrl: item.videoUrl,
+      imageUrl: item.imageUrl,
+      balance: this.web3.utils.fromWei(item.balance.toString(), 'ether'),
+      supporters: Number(item.supporters),
+      active: item.active,
+      createdAt: new Date(Number(item.createdAt) * 1000).toLocaleString(),
+      id: Number(item.id),
+    }))
+  }
+
+  async getUserCampaigns(): Promise<Campaign[]> {
+    const contract = this.getContract()
+    const data: CampaignRaw[] = await contract.methods
+      .getUserCampaigns()
+      .call()
+    return data.map((item) => ({
+      author: item.author,
+      title: item.title,
+      description: item.description,
+      videoUrl: item.videoUrl,
+      imageUrl: item.imageUrl,
+      balance: this.web3.utils.fromWei(item.balance.toString(), 'ether'),
+      supporters: Number(item.supporters),
+      active: item.active,
+      createdAt: new Date(Number(item.createdAt) * 1000).toLocaleString(),
+      id: Number(item.id),
+    }))
   }
 
   getRawWeb3(): Web3 {

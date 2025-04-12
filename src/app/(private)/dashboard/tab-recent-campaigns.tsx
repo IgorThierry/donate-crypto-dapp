@@ -18,10 +18,13 @@ import { recentCampaigns } from '@/utils/mocks'
 import { useCallback, useEffect, useState } from 'react'
 import { toast } from 'react-toastify'
 import { TabRecentCampaingsSkeleton } from './tab-recent-campaigns-skeleton'
+import { getErrorMessage } from '@/utils/getErrorMessage'
+import { Web3Provider } from '@/services/Web3Provider'
+import { Campaign } from '@/_types/contract'
 
 export function TabRecentCampaings() {
   const [isLoading, setIsLoading] = useState(true)
-  const [campaigns, setCampaigns] = useState<typeof recentCampaigns>([])
+  const [campaigns, setCampaigns] = useState<Campaign[]>([])
   const [error, setError] = useState<string | null>(null)
 
   const loadData = useCallback(async () => {
@@ -29,14 +32,12 @@ export function TabRecentCampaings() {
       setIsLoading(true)
       setError(null)
 
-      await new Promise((resolve) => setTimeout(resolve, 1000))
+      const provider = Web3Provider.getInstance(window.ethereum)
+      const data = await provider.getRecentCampaigns()
 
-      setCampaigns(recentCampaigns)
+      setCampaigns(data)
     } catch (error) {
-      let errorMessage = 'An error occurred while loading data'
-      if (error instanceof Error) {
-        errorMessage = error.message
-      }
+      const errorMessage = getErrorMessage(error)
       toast.error(errorMessage)
       setError(errorMessage)
     } finally {
@@ -81,7 +82,7 @@ export function TabRecentCampaings() {
             <Card key={campaign.id} className="overflow-hidden pt-0">
               <div className="relative h-48 w-full">
                 <Image
-                  src={campaign.image_url || '/placeholder.svg'}
+                  src={campaign.imageUrl || '/placeholder.svg'}
                   alt={campaign.title}
                   fill
                   className="object-cover"
