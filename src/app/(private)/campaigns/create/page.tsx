@@ -9,6 +9,13 @@ import { CampaignForm } from '@/components/campaign-form'
 import { toast } from 'react-toastify'
 import { isValidUrl } from '@/utils/isValidURL'
 
+const initialFormData = {
+  title: '',
+  description: '',
+  imageUrl: '',
+  videoUrl: '',
+}
+
 export default function CreateCampaign() {
   const router = useRouter()
 
@@ -18,12 +25,7 @@ export default function CreateCampaign() {
     router.push('/dashboard')
   }
 
-  const [formData, setFormData] = useState({
-    title: '',
-    description: '',
-    imageUrl: '',
-    videoUrl: '',
-  })
+  const [formData, setFormData] = useState(initialFormData)
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
@@ -64,6 +66,7 @@ export default function CreateCampaign() {
 
     console.log('Campaign created:', formData)
     setIsSubmitting(false)
+    setFormData(initialFormData)
     toast.success('Campaign created successfully!')
   }
 
