@@ -1,20 +1,20 @@
-type tx = {
+type TransactionReceipt = {
   transactionHash: string
   blockHash: string
 }
 
 export type CampaignRaw = {
-  author: string;           // address em Solidity vira string em TS
-  title: string;
-  description: string;
-  videoUrl: string;
-  imageUrl: string;
-  balance: bigint;          // uint256 pode ser representado por bigint
-  supporters: bigint;       // idem
-  active: boolean;
-  createdAt: bigint;        // timestamps geralmente são números grandes
-  id: bigint;
-};
+  author: string // address em Solidity vira string em TS
+  title: string
+  description: string
+  videoUrl: string
+  imageUrl: string
+  balance: bigint // uint256 pode ser representado por bigint
+  supporters: bigint // idem
+  active: boolean
+  createdAt: bigint // timestamps geralmente são números grandes
+  id: bigint
+}
 
 export type Campaign = {
   author: string
@@ -37,7 +37,16 @@ export interface MyContract {
       videoUrl: string,
       imageUrl: string,
     ): {
-      send(): Promise<tx>
+      send(): Promise<TransactionReceipt>
+    }
+    editCampaign(
+      id: number | string,
+      title: string,
+      description: string,
+      videoUrl: string,
+      imageUrl: string,
+    ): {
+      send(options: { from: string }): Promise<TransactionReceipt>
     }
     nextId(): {
       call(): Promise<number>
@@ -47,6 +56,21 @@ export interface MyContract {
     }
     getUserCampaigns(): {
       call(): Promise<CampaignRaw[]>
+    }
+    campaigns(id: number | string): {
+      call(): Promise<CampaignRaw>
+    }
+    donate(id: number): {
+      send(options: {
+        from: string
+        value: string
+      }): Promise<TransactionReceipt>
+    }
+    withdraw(campaignId: number): {
+      send(options: { from: string }): Promise<TransactionReceipt>
+    }
+    adminWithdrawFees(): {
+      send(options: { from: string }): Promise<TransactionReceipt>
     }
   }
 }

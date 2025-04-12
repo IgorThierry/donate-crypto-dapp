@@ -1,24 +1,27 @@
 'use client'
 
 import type React from 'react'
-
-import { useState, useEffect, FormEvent } from 'react'
+import { useEffect, useState, type FormEvent } from 'react'
 import { useParams, useRouter } from 'next/navigation'
 import Link from 'next/link'
-import { ArrowLeft, Loader2 } from 'lucide-react'
-
-import { userCampaigns } from '@/utils/mocks'
+import { ArrowLeft, CheckCircle, Copy, Loader2 } from 'lucide-react'
 import { CampaignForm } from '@/components/campaign-form'
 import { toast } from 'react-toastify'
+import { isValidUrl } from '@/utils/isValidURL'
+import { Web3Provider } from '@/services/Web3Provider'
+import { getErrorMessage } from '@/utils/getErrorMessage'
 
-// Mock function to fetch campaign data
-const fetchCampaign = async (id: string) => {
-  // Simulate API call
-  await new Promise((resolve) => setTimeout(resolve, 1000))
+import {
+  CampaignCreatedAlert,
+  CampaignCreatedAlertProps,
+} from '@/components/campaign-created-alert'
+import { useWallet } from '@/contexts/wallet-context'
 
-  const campaign = userCampaigns.find((campaign) => campaign.id === Number(id))
-
-  return campaign || null
+const initialFormData = {
+  title: '',
+  description: '',
+  imageUrl: '',
+  videoUrl: '',
 }
 
 export default function EditCampaign() {
@@ -27,21 +30,16 @@ export default function EditCampaign() {
   const campaignId = params.id as string
 
   const [isLoading, setIsLoading] = useState(true)
+  const [errorOnLoad, setErrorOnLoad] = useState<string | null>(null)
 
-  const [error, setError] = useState<string | null>(null)
-
+  const [formData, setFormData] = useState(initialFormData)
   const [isSubmitting, setIsSubmitting] = useState(false)
+
+  const [success, setSuccess] = useState<CampaignCreatedAlertProps | null>(null)
 
   function handleCancel() {
     router.push('/dashboard')
   }
-
-  const [formData, setFormData] = useState({
-    title: '',
-    description: '',
-    imageUrl: '',
-    videoUrl: '',
-  })
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
@@ -52,38 +50,92 @@ export default function EditCampaign() {
 
   async function handleSubmit(e: FormEvent) {
     e.preventDefault()
-    setIsSubmitting(true)
 
-    await new Promise((resolve) => setTimeout(resolve, 1000))
+    try {
+      setIsSubmitting(true)
 
-    console.log('Campaign edited:', formData)
-    setIsSubmitting(false)
-    toast.success('Campaign edited successfully!')
+      const isVideoUrlValid = isValidUrl(formData.videoUrl)
+      const isImageUrlValid = isValidUrl(formData.imageUrl)
+      if (formData.videoUrl && !isVideoUrlValid) {
+        toast.error('Invalid video URL')
+        setIsSubmitting(false)
+        return
+      }
+      if (formData.imageUrl && !isImageUrlValid) {
+        toast.error('Invalid image URL')
+        setIsSubmitting(false)
+        return
+      }
+      if (!formData.title || !formData.description) {
+        toast.error('Title and description are required')
+        setIsSubmitting(false)
+        return
+      }
+
+      const provider = Web3Provider.getInstance(window.ethereum)
+      const { transactionHash } = await provider.editCampaign(
+        campaignId,
+        formData,
+      )
+
+      setSuccess({
+        transactionHash,
+        newCampaignId: Number(campaignId),
+      })
+
+      setFormData(initialFormData)
+      toast.success('Campaign created successfully!')
+    } catch (error) {
+      console.log(error)
+      const errorMessage = getErrorMessage(error)
+      toast.error(errorMessage)
+    } finally {
+      setIsSubmitting(false)
+    }
   }
 
   useEffect(() => {
-    const loadCampaign = async () => {
+    async function fetchCampaignData() {
       try {
-        const campaign = await fetchCampaign(campaignId)
-        if (campaign) {
-          setFormData({
-            title: campaign.title,
-            description: campaign.description,
-            imageUrl: campaign.image_url || '',
-            videoUrl: campaign.video_url || '',
-          })
-        } else {
-          setError('Campaign not found')
+        setErrorOnLoad(null)
+        const provider = Web3Provider.getInstance(window.ethereum)
+        const campaign = await provider.campaigns(campaignId)
+        if (!campaign) {
+          setErrorOnLoad('Campaign not found')
+          toast.error('Campaign not found')
+          setIsLoading(false)
+          return
         }
-      } catch (err) {
-        setError('Failed to load campaign')
-        console.error(err)
+
+        const { title, description, imageUrl, videoUrl, author } = campaign
+
+        console.log('Campaign data:', author)
+
+        if (
+          author.toLocaleUpperCase() != provider.account?.toLocaleUpperCase()
+        ) {
+          setErrorOnLoad('You are not the author of this campaign')
+          toast.error('You are not the author of this campaign')
+          setIsLoading(false)
+          return
+        }
+
+        setFormData({
+          title,
+          description,
+          imageUrl: imageUrl || '',
+          videoUrl: videoUrl || '',
+        })
+      } catch (error) {
+        const errorMessage = getErrorMessage(error)
+        setErrorOnLoad(errorMessage)
+        toast.error('Error on loading campaign data')
       } finally {
         setIsLoading(false)
       }
     }
 
-    loadCampaign()
+    fetchCampaignData()
   }, [campaignId])
 
   if (isLoading) {
@@ -97,7 +149,7 @@ export default function EditCampaign() {
     )
   }
 
-  if (error) {
+  if (errorOnLoad) {
     return (
       <div className="min-h-screen bg-gray-50 pt-16">
         <div className="max-w-3xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
@@ -113,7 +165,7 @@ export default function EditCampaign() {
 
           <div className="bg-white shadow-md rounded-lg p-6 md:p-8 text-center">
             <h1 className="text-2xl font-bold text-red-600 mb-4">Error</h1>
-            <p className="text-gray-700 mb-6">{error}</p>
+            <p className="text-gray-700 mb-6">{errorOnLoad}</p>
             <Link href="/dashboard">
               <button className="px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-md transition-colors">
                 Return to Dashboard
@@ -137,6 +189,14 @@ export default function EditCampaign() {
             Back to Dashboard
           </Link>
         </div>
+
+        {success !== null && (
+          <CampaignCreatedAlert
+            message="Campaign edited successfully!"
+            newCampaignId={success.newCampaignId}
+            transactionHash={success.transactionHash}
+          />
+        )}
 
         <CampaignForm
           isEditing

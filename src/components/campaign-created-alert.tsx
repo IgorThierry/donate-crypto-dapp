@@ -7,9 +7,11 @@ import { CheckCircle, Copy } from 'lucide-react'
 export type CampaignCreatedAlertProps = {
   transactionHash: string
   newCampaignId: number
+  message?: string
 }
 
 export function CampaignCreatedAlert({
+  message = 'Campaign created successfully!',
   transactionHash,
   newCampaignId,
 }: CampaignCreatedAlertProps) {
@@ -27,7 +29,7 @@ export function CampaignCreatedAlert({
   return (
     <Alert className="mb-6 bg-green-50 border-green-200">
       <AlertTitle className="text-green-800 font-medium">
-        Campaign created successfully!
+        {message}
       </AlertTitle>
       <AlertDescription className="mt-2">
         <div>

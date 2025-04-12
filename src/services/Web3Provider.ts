@@ -15,7 +15,7 @@ export type AddCampaignParams = {
 export class Web3Provider {
   private static instance: Web3Provider | null = null
   private web3: Web3
-  private account: string | null = null
+  public account: string | null = null
 
   constructor(ethereum: unknown) {
     if (!ethereum) {
@@ -100,9 +100,7 @@ export class Web3Provider {
 
   async getUserCampaigns(): Promise<Campaign[]> {
     const contract = this.getContract()
-    const data: CampaignRaw[] = await contract.methods
-      .getUserCampaigns()
-      .call()
+    const data: CampaignRaw[] = await contract.methods.getUserCampaigns().call()
     return data.map((item) => ({
       author: item.author,
       title: item.title,
@@ -115,6 +113,40 @@ export class Web3Provider {
       createdAt: new Date(Number(item.createdAt) * 1000).toLocaleString(),
       id: Number(item.id),
     }))
+  }
+
+  async campaigns(id: number | string): Promise<Campaign> {
+    const contract = this.getContract()
+    const data: CampaignRaw = await contract.methods.campaigns(id).call()
+    return {
+      author: data.author,
+      title: data.title,
+      description: data.description,
+      videoUrl: data.videoUrl,
+      imageUrl: data.imageUrl,
+      balance: this.web3.utils.fromWei(data.balance.toString(), 'ether'),
+      supporters: Number(data.supporters),
+      active: data.active,
+      createdAt: new Date(Number(data.createdAt) * 1000).toLocaleString(),
+      id: Number(data.id),
+    }
+  }
+
+  async editCampaign(id: number | string, campaign: AddCampaignParams) {
+    const contract = this.getContract()
+    const from = this.account
+    if (!from) {
+      throw new Error('editCampaign - No wallet found')
+    }
+    return contract.methods
+      .editCampaign(
+        id,
+        campaign.title,
+        campaign.description,
+        campaign.videoUrl,
+        campaign.imageUrl,
+      )
+      .send({ from })
   }
 
   getRawWeb3(): Web3 {
