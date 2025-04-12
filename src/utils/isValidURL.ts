@@ -1,4 +1,4 @@
 export function isValidUrl(url: string) {
-  const urlPattern = /^(ftp|http|https):\/\/[^ "]+$/
+  const urlPattern = /^(https):\/\/[^ "]+$/
   return urlPattern.test(url)
 }
