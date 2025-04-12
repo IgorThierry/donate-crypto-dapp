@@ -40,6 +40,14 @@ export const recentCampaigns = [
     balance: '4.12 POL',
     image_url: '/placeholder.svg?height=200&width=400',
   },
+  {
+    id: 6,
+    title: 'Healthcare Access',
+    description:
+      'Expanding healthcare access to underserved populations through mobile clinics.',
+    balance: '4.12 POL',
+    image_url: '/placeholder.svg?height=200&width=400',
+  },
 ]
 
 // Mock data for user campaigns
@@ -50,7 +58,7 @@ export const userCampaigns = [
     description:
       'Help us provide meals to families in need in our local community.',
     balance: '1.35 POL',
-    image_url: '/placeholder.svg?height=200&width=400',
+    image_url: '',
     created_at: '2023-10-15',
     status: 'active',
     video_url: '',
@@ -61,7 +69,7 @@ export const userCampaigns = [
     description:
       'Renovating facilities at the downtown homeless shelter to improve living conditions.',
     balance: '2.78 POL',
-    image_url: '/placeholder.svg?height=200&width=400',
+    image_url: '',
     created_at: '2023-09-22',
     status: 'active',
     video_url: '',
@@ -72,7 +80,7 @@ export const userCampaigns = [
     description:
       'Creating a sustainable community garden to provide fresh produce and education.',
     balance: '0.95 POL',
-    image_url: '/placeholder.svg?height=200&width=400',
+    image_url: '',
     created_at: '2023-11-05',
     status: 'active',
     video_url: '',

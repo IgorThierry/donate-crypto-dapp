@@ -5,6 +5,7 @@ import Link from 'next/link'
 import { Menu, X, LogOut, Wallet } from 'lucide-react'
 import { useWallet } from '@/contexts/wallet-context'
 import { isAdmin } from '@/utils/isAdmin'
+import { AccountBalanceBadge } from './account-balance-badge'
 
 export function Navigation() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
@@ -22,15 +23,10 @@ export function Navigation() {
         </Link>
 
         {isConnected && (
-          <div className="hidden md:flex items-center mr-4 text-sm">
-            <div className="flex items-center bg-blue-50 px-3 py-1.5 rounded-lg border border-blue-100">
-              <Wallet className="h-4 w-4 text-blue-600 mr-2" />
-              <span className="text-blue-700 font-medium mr-2">
-                {account?.slice(0, 6)}...{account?.slice(-4)}
-              </span>
-              <span className="text-blue-600 font-medium">{balance} POL</span>
-            </div>
-          </div>
+          <AccountBalanceBadge
+            account={account || ''}
+            balance={balance || ''}
+          />
         )}
 
         <button
@@ -93,9 +89,7 @@ export function Navigation() {
                 <li className="md:hidden">
                   <div className="flex items-center py-2 pl-3 pr-4 text-gray-900">
                     <Wallet className="h-4 w-4 mr-2" />
-                    <span className="font-medium mr-2">
-                      {accountFormatted}
-                    </span>
+                    <span className="font-medium mr-2">{accountFormatted}</span>
                     <span>{balance} POL</span>
                   </div>
                 </li>
