@@ -59,7 +59,7 @@ export default function Home() {
                 </div>
                 <div className="text-right">
                   <p className="text-sm text-blue-700 font-medium">Saldo</p>
-                  <p className="text-xs text-blue-600 mt-1">{balance} ETH</p>
+                  <p className="text-xs text-blue-600 mt-1">{balance} POL</p>
                 </div>
               </div>
 

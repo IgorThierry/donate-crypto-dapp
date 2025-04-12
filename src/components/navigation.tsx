@@ -25,7 +25,7 @@ export function Navigation() {
               <span className="text-blue-700 font-medium mr-2">
                 {account?.slice(0, 6)}...{account?.slice(-4)}
               </span>
-              <span className="text-blue-600 font-medium">{balance} ETH</span>
+              <span className="text-blue-600 font-medium">{balance} POL</span>
             </div>
           </div>
         )}
@@ -83,7 +83,7 @@ export function Navigation() {
                     <span className="font-medium mr-2">
                       {account?.slice(0, 6)}...{account?.slice(-4)}
                     </span>
-                    <span>{balance} ETH</span>
+                    <span>{balance} POL</span>
                   </div>
                 </li>
                 <li>

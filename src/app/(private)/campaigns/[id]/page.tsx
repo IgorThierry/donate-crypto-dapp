@@ -79,7 +79,7 @@ export default function CampaignDetailsPage() {
     title: 'Local Food Bank Support Initiative',
     description:
       'Help us provide meals to families in need in our local community.',
-    balance: '0.5 ETH',
+    balance: '0.5 POL',
     imageUrl: '/placeholder.svg?height=450&width=800',
     active: true,
     videoUrl: 'https://www.youtube.com/embed/dQw4w9WgXcQ', // Example YouTube video

@@ -10,6 +10,8 @@ import {
 import { useRouter } from 'next/navigation'
 import { deleteCookie, setCookie, getCookie } from 'cookies-next/client'
 
+import { Web3Provider } from '@/services/Web3Provider'
+
 // Tipos para o contexto
 type WalletContextType = {
   account: string | null
@@ -63,12 +65,23 @@ export function WalletProvider({ children }: { children: ReactNode }) {
       setIsConnecting(true)
       setError(null)
 
-      setChainId('0x13881')
-      setAccount('0x1234567890abcdef1234567890abcdef12345678')
-      setBalance('0.5')
-      setIsConnected(true)
+      const provider = Web3Provider.getInstance(window.ethereum)
 
+      const account = await provider.login()
+      const balance = await provider.getBalance(account)
+      const chainId = await provider.getChainId()
+
+      console.log('Account:', account)
+      console.log('Chain ID:', chainId)
+      console.log('Balance:', balance)
+
+      setChainId(chainId)
+      setAccount(account)
+      setBalance(balance)
+
+      setIsConnected(true)
       setCookie('isWalletConnected', 'true')
+      setCookie('wallet', account)
     } catch (error: Error | unknown) {
       console.error('Erro ao conectar com MetaMask:', error)
       let errorMessage = 'Erro ao conectar com MetaMask'
@@ -88,6 +101,7 @@ export function WalletProvider({ children }: { children: ReactNode }) {
     setBalance(null)
     setIsConnected(false)
     deleteCookie('isWalletConnected')
+    deleteCookie('wallet')
 
     router.push('/')
   }

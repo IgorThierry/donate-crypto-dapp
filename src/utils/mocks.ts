@@ -5,7 +5,7 @@ export const recentCampaigns = [
     title: 'Clean Water Initiative',
     description:
       'Providing clean water solutions to communities in need across developing regions.',
-    balance: '2.45 ETH',
+    balance: '2.45 POL',
     image_url: '/placeholder.svg?height=200&width=400',
   },
   {
@@ -13,7 +13,7 @@ export const recentCampaigns = [
     title: 'Education for All',
     description:
       'Supporting educational programs for underprivileged children around the world.',
-    balance: '1.82 ETH',
+    balance: '1.82 POL',
     image_url: '/placeholder.svg?height=200&width=400',
   },
   {
@@ -21,7 +21,7 @@ export const recentCampaigns = [
     title: 'Wildlife Conservation',
     description:
       'Protecting endangered species and their habitats through direct action and advocacy.',
-    balance: '3.21 ETH',
+    balance: '3.21 POL',
     image_url: '/placeholder.svg?height=200&width=400',
   },
   {
@@ -29,7 +29,7 @@ export const recentCampaigns = [
     title: 'Renewable Energy Project',
     description:
       'Funding innovative renewable energy solutions for remote communities.',
-    balance: '5.67 ETH',
+    balance: '5.67 POL',
     image_url: '/placeholder.svg?height=200&width=400',
   },
   {
@@ -37,7 +37,7 @@ export const recentCampaigns = [
     title: 'Healthcare Access',
     description:
       'Expanding healthcare access to underserved populations through mobile clinics.',
-    balance: '4.12 ETH',
+    balance: '4.12 POL',
     image_url: '/placeholder.svg?height=200&width=400',
   },
 ]
@@ -49,7 +49,7 @@ export const userCampaigns = [
     title: 'Local Food Bank Support',
     description:
       'Help us provide meals to families in need in our local community.',
-    balance: '1.35 ETH',
+    balance: '1.35 POL',
     image_url: '/placeholder.svg?height=200&width=400',
     created_at: '2023-10-15',
     status: 'active',
@@ -60,7 +60,7 @@ export const userCampaigns = [
     title: 'Homeless Shelter Renovation',
     description:
       'Renovating facilities at the downtown homeless shelter to improve living conditions.',
-    balance: '2.78 ETH',
+    balance: '2.78 POL',
     image_url: '/placeholder.svg?height=200&width=400',
     created_at: '2023-09-22',
     status: 'active',
@@ -71,7 +71,7 @@ export const userCampaigns = [
     title: 'Community Garden Project',
     description:
       'Creating a sustainable community garden to provide fresh produce and education.',
-    balance: '0.95 ETH',
+    balance: '0.95 POL',
     image_url: '/placeholder.svg?height=200&width=400',
     created_at: '2023-11-05',
     status: 'active',
