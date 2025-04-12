@@ -71,10 +71,6 @@ export function WalletProvider({ children }: { children: ReactNode }) {
       const balance = await provider.getBalance(account)
       const chainId = await provider.getChainId()
 
-      console.log('Account:', account)
-      console.log('Chain ID:', chainId)
-      console.log('Balance:', balance)
-
       setChainId(chainId)
       setAccount(account)
       setBalance(balance)

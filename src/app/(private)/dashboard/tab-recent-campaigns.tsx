@@ -105,9 +105,6 @@ export function TabRecentCampaings() {
                 <Link href={`/campaigns/${campaign.id}`}>
                   <Button variant="outline">View Details</Button>
                 </Link>
-                <Button className="bg-blue-600 hover:bg-blue-700">
-                  Donate
-                </Button>
               </CardFooter>
             </Card>
           ))}

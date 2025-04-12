@@ -4,6 +4,7 @@ import { useState } from 'react'
 import Link from 'next/link'
 import { Menu, X, LogOut, Wallet } from 'lucide-react'
 import { useWallet } from '@/contexts/wallet-context'
+import { isAdmin } from '@/utils/isAdmin'
 
 export function Navigation() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
@@ -76,6 +77,16 @@ export function Navigation() {
                     Dashboard
                   </Link>
                 </li>
+                {isAdmin(account || '') && (
+                  <li>
+                    <Link
+                      href="/admin/withdraw"
+                      className="block py-2 pl-3 pr-4 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0"
+                    >
+                      Admin
+                    </Link>
+                  </li>
+                )}
 
                 <li className="md:hidden">
                   <div className="flex items-center py-2 pl-3 pr-4 text-gray-900">

@@ -48,6 +48,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from '@/components/ui/tooltip'
+import { toast } from 'react-toastify'
 
 // Campaign data interface
 interface Campaign {
@@ -65,7 +66,7 @@ interface Campaign {
 
 export default function CampaignDetailsPage() {
   const [donationAmount, setDonationAmount] = useState('0.1')
-  const [currency, setCurrency] = useState('ETH')
+
   const [isDialogOpen, setIsDialogOpen] = useState(false)
 
   // In a real scenario, you would fetch campaign data based on the ID
@@ -91,8 +92,7 @@ export default function CampaignDetailsPage() {
   const [balanceValue, balanceCurrency] = campaign.balance.split(' ')
 
   const handleDonate = () => {
-    // Here you would implement the donation logic
-    alert(`Donation of ${donationAmount} ${currency} sent successfully!`)
+    toast.success(`Donation of ${donationAmount} POL sent successfully!`)
     setIsDialogOpen(false)
   }
 
@@ -261,24 +261,6 @@ export default function CampaignDetailsPage() {
                           step="0.01"
                           min="0.01"
                         />
-                      </div>
-                      <div className="grid grid-cols-4 items-center gap-4">
-                        <Label htmlFor="currency" className="text-right">
-                          Currency
-                        </Label>
-                        <Select value={currency} onValueChange={setCurrency}>
-                          <SelectTrigger className="col-span-3">
-                            <SelectValue placeholder="Select currency" />
-                          </SelectTrigger>
-                          <SelectContent>
-                            <SelectItem value="ETH">Ethereum (ETH)</SelectItem>
-                            <SelectItem value="BTC">Bitcoin (BTC)</SelectItem>
-                            <SelectItem value="USDT">Tether (USDT)</SelectItem>
-                            <SelectItem value="USDC">
-                              USD Coin (USDC)
-                            </SelectItem>
-                          </SelectContent>
-                        </Select>
                       </div>
                     </div>
                     <DialogFooter>
