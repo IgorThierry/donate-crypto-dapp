@@ -10,6 +10,8 @@ export function Navigation() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const { isConnected, account, balance, disconnectWallet } = useWallet()
 
+  const accountFormatted = account?.slice(0, 6) + '...' + account?.slice(-4)
+
   return (
     <nav className="bg-white border-b border-gray-200 fixed w-full z-10">
       <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
@@ -92,7 +94,7 @@ export function Navigation() {
                   <div className="flex items-center py-2 pl-3 pr-4 text-gray-900">
                     <Wallet className="h-4 w-4 mr-2" />
                     <span className="font-medium mr-2">
-                      {account?.slice(0, 6)}...{account?.slice(-4)}
+                      {accountFormatted}
                     </span>
                     <span>{balance} POL</span>
                   </div>

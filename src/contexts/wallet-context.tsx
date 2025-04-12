@@ -69,11 +69,12 @@ export function WalletProvider({ children }: { children: ReactNode }) {
 
       const account = await provider.login()
       const balance = await provider.getBalance(account)
+      const foarmattedBalance = parseFloat(balance).toFixed(5)
       const chainId = await provider.getChainId()
 
       setChainId(chainId)
       setAccount(account)
-      setBalance(balance)
+      setBalance(foarmattedBalance)
 
       setIsConnected(true)
       setCookie('isWalletConnected', 'true')

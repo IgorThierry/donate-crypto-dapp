@@ -6,9 +6,7 @@ export class Web3Provider {
 
   constructor(ethereum: unknown) {
     if (!ethereum) {
-      throw new Error(
-        'Ethereum provider não encontrado! Verifique se o MetaMask está instalado.',
-      )
+      throw new Error('MetaMask not found!')
     }
 
     this.web3 = new Web3(ethereum)
@@ -24,7 +22,7 @@ export class Web3Provider {
   async login(): Promise<string> {
     const accounts = await this.web3.eth.requestAccounts()
     if (!accounts || accounts.length === 0) {
-      throw new Error('Nenhuma conta encontrada!')
+      throw new Error('No accounts found')
     }
     return accounts[0]
   }
