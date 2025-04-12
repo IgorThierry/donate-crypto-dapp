@@ -36,11 +36,11 @@ export default function CreateCampaign() {
     e.preventDefault()
     setIsSubmitting(true)
 
-    if (!formData.videoUrl && !formData.imageUrl) {
+    /* if (!formData.videoUrl && !formData.imageUrl) {
       toast.error('At least one of video or image URL is required')
       setIsSubmitting(false)
       return
-    }
+    } */
 
     const isVideoUrlValid = isValidUrl(formData.videoUrl)
     const isImageUrlValid = isValidUrl(formData.imageUrl)
