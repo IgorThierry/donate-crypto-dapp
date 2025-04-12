@@ -5,8 +5,8 @@ import { FormEvent } from 'react'
 export type CampaignFormData = {
   title: string
   description: string
-  imageUrl?: string
-  videoUrl?: string
+  imageUrl: string
+  videoUrl: string
 }
 
 type CampaignFormProps = {
