@@ -123,7 +123,6 @@ export default function CampaignDetailsPage() {
       setDonationAmount('0.001')
       fetchCampaignData()
     } catch (error) {
-      setIsDialogOpen(false)
       const errorMessage = getErrorMessage(error)
       toast.error(errorMessage)
     } finally {

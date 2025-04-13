@@ -157,12 +157,8 @@ export class Web3Provider {
   async donate(id: number | string, amount: string) {
     await this.login()
     const contract = this.getContract()
-    const from = this.account
-    if (!from) {
-      throw new Error('donate - No wallet found')
-    }
+
     return contract.methods.donate(id).send({
-      from,
       value: this.web3.utils.toWei(amount, 'ether'),
     })
   }

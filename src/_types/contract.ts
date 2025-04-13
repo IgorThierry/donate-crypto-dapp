@@ -61,10 +61,7 @@ export interface MyContract {
       call(): Promise<CampaignRaw>
     }
     donate(id: number | string): {
-      send(options: {
-        from: string
-        value: string
-      }): Promise<TransactionReceipt>
+      send(options: { value: string }): Promise<TransactionReceipt>
     }
     withdraw(campaignId: number | string): {
       send(options: { from: string }): Promise<TransactionReceipt>
