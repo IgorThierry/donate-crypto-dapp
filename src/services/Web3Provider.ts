@@ -59,11 +59,8 @@ export class Web3Provider {
 
   getContract() {
     const from = this.account
-    if (!from) {
-      throw new Error('No wallet found')
-    }
     return new this.web3.eth.Contract(ABI, CONTRACT_ADDRESS, {
-      from,
+      from: from || undefined,
     }) as unknown as MyContract
   }
 
