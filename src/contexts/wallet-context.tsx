@@ -15,7 +15,6 @@ import { Web3Provider } from '@/services/Web3Provider'
 // Tipos para o contexto
 type WalletContextType = {
   account: string | null
-  chainId: string | null
   balance: string | null
   isConnected: boolean
   isConnecting: boolean
@@ -27,7 +26,6 @@ type WalletContextType = {
 // Valor padrão do contexto
 const defaultContext: WalletContextType = {
   account: null,
-  chainId: null,
   balance: null,
   isConnected: false,
   isConnecting: false,
@@ -45,7 +43,6 @@ export const useWallet = () => useContext(WalletContext)
 // Provider do contexto
 export function WalletProvider({ children }: { children: ReactNode }) {
   const [account, setAccount] = useState<string | null>(null)
-  const [chainId, setChainId] = useState<string | null>(null)
   const [balance, setBalance] = useState<string | null>(null)
   const [isConnected, setIsConnected] = useState(false)
   const [isConnecting, setIsConnecting] = useState(false)
@@ -70,9 +67,7 @@ export function WalletProvider({ children }: { children: ReactNode }) {
       const account = await provider.login()
       const balance = await provider.getBalance(account)
       const foarmattedBalance = parseFloat(balance).toFixed(5)
-      const chainId = await provider.getChainId()
 
-      setChainId(chainId)
       setAccount(account)
       setBalance(foarmattedBalance)
 
@@ -94,7 +89,6 @@ export function WalletProvider({ children }: { children: ReactNode }) {
   // Desconectar da carteira
   const disconnectWallet = () => {
     setAccount(null)
-    setChainId(null)
     setBalance(null)
     setIsConnected(false)
     deleteCookie('isWalletConnected')
@@ -118,7 +112,6 @@ export function WalletProvider({ children }: { children: ReactNode }) {
 
   const value = {
     account,
-    chainId,
     balance,
     isConnected,
     isConnecting,
