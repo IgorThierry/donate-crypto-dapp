@@ -109,9 +109,11 @@ export default function EditCampaign() {
 
         const { title, description, imageUrl, videoUrl, author } = campaign
 
-        if (
-          author.toLocaleUpperCase() != provider.account?.toLocaleUpperCase()
-        ) {
+        const isCampaignOwner =
+          author.toLocaleUpperCase() ===
+          provider.getAccount()?.toLocaleUpperCase()
+
+        if (!isCampaignOwner) {
           setErrorOnLoad('You are not the author of this campaign')
           toast.error('You are not the author of this campaign')
           setIsLoading(false)

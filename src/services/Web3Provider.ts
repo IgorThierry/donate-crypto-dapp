@@ -1,7 +1,7 @@
 import { Campaign, CampaignRaw, MyContract } from '@/_types/contract'
 import Web3 from 'web3'
 import ABI from './ABI.json'
-import { getCookie } from 'cookies-next/client'
+import { getCookie, setCookie } from 'cookies-next/client'
 
 const CONTRACT_ADDRESS = '0x26528e2b7932d049BB9e5dA351962c65F2aFF0fE'
 
@@ -15,7 +15,7 @@ export type AddCampaignParams = {
 export class Web3Provider {
   private static instance: Web3Provider | null = null
   private web3: Web3
-  public account: string | null = null
+  private account: string | null = null
 
   constructor(ethereum: unknown) {
     if (!ethereum) {
@@ -33,12 +33,17 @@ export class Web3Provider {
     return Web3Provider.instance
   }
 
+  getAccount(): string | null {
+    return this.account
+  }
+
   async login(): Promise<string> {
     const accounts = await this.web3.eth.requestAccounts()
     if (!accounts || accounts.length === 0) {
       throw new Error('No accounts found')
     }
     this.account = accounts[0]
+    setCookie('wallet', accounts[0])
     return accounts[0]
   }
 
@@ -150,6 +155,7 @@ export class Web3Provider {
   }
 
   async donate(id: number | string, amount: string) {
+    await this.login()
     const contract = this.getContract()
     const from = this.account
     if (!from) {

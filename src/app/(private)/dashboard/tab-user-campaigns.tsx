@@ -159,8 +159,7 @@ export function TabUserCampaigns() {
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap">
                         <Badge
-                          variant={campaign.active ? 'default' : 'outline'}
-                          className="bg-green-100 text-green-800 hover:bg-green-100"
+                          variant={campaign.active ? 'success' : 'destructive'}
                         >
                           {campaign.active ? 'Active' : 'Inactive'}
                         </Badge>
