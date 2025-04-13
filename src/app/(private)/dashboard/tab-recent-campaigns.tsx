@@ -14,7 +14,6 @@ import {
 import { Button } from '@/components/ui/button'
 import { TabsContent } from '@/components/ui/tabs'
 
-import { recentCampaigns } from '@/utils/mocks'
 import { useCallback, useEffect, useState } from 'react'
 import { toast } from 'react-toastify'
 import { TabRecentCampaingsSkeleton } from './tab-recent-campaigns-skeleton'
@@ -61,7 +60,7 @@ export function TabRecentCampaings() {
           <p className="text-lg font-semibold text-red-600">
             Oops! Something went wrong while loading campaigns.
           </p>
-          <p className="text-muted-foreground mt-2">Please try again later.</p>
+          <p className="text-muted-foreground mt-2">{error}</p>
           <Button onClick={handleLoadData}>Try again!</Button>
         </div>
       )}
