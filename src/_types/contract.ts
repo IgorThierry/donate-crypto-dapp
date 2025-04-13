@@ -60,13 +60,13 @@ export interface MyContract {
     campaigns(id: number | string): {
       call(): Promise<CampaignRaw>
     }
-    donate(id: number): {
+    donate(id: number | string): {
       send(options: {
         from: string
         value: string
       }): Promise<TransactionReceipt>
     }
-    withdraw(campaignId: number): {
+    withdraw(campaignId: number | string): {
       send(options: { from: string }): Promise<TransactionReceipt>
     }
     adminWithdrawFees(): {

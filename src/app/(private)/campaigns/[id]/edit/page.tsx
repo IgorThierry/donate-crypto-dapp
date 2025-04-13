@@ -109,8 +109,6 @@ export default function EditCampaign() {
 
         const { title, description, imageUrl, videoUrl, author } = campaign
 
-        console.log('Campaign data:', author)
-
         if (
           author.toLocaleUpperCase() != provider.account?.toLocaleUpperCase()
         ) {
