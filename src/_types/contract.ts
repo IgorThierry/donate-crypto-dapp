@@ -51,6 +51,9 @@ export interface MyContract {
     nextId(): {
       call(): Promise<number>
     }
+    feesBalance(): {
+      call(): Promise<bigint>
+    }
     getRecentCampaigns(): {
       call(): Promise<CampaignRaw[]>
     }
@@ -67,7 +70,7 @@ export interface MyContract {
       send(options: { from: string }): Promise<TransactionReceipt>
     }
     adminWithdrawFees(): {
-      send(options: { from: string }): Promise<TransactionReceipt>
+      send(): Promise<TransactionReceipt>
     }
   }
 }

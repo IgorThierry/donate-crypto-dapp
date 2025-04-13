@@ -250,7 +250,7 @@ export default function CampaignDetailsPage() {
             <div className="lg:hidden">
               <h1 className="text-3xl font-bold mb-2">{campaign?.title}</h1>
               <div className="flex flex-wrap gap-2 mb-4">
-                <Badge variant={campaign?.active ? 'default' : 'outline'}>
+                <Badge variant={campaign?.active ? 'success' : 'destructive'}>
                   {campaign?.active ? 'Active' : 'Inactive'}
                 </Badge>
               </div>
@@ -284,7 +284,7 @@ export default function CampaignDetailsPage() {
             <div className="hidden lg:block">
               <h1 className="text-3xl font-bold mb-2">{campaign?.title}</h1>
               <div className="flex flex-wrap gap-2 mb-4">
-                <Badge variant={campaign?.active ? 'default' : 'outline'}>
+                <Badge variant={campaign?.active ? 'success' : 'destructive'}>
                   {campaign?.active ? 'Active' : 'Inactive'}
                 </Badge>
                 <div className="flex items-center text-sm text-muted-foreground">
@@ -333,7 +333,7 @@ export default function CampaignDetailsPage() {
                         Status
                       </h3>
                       <Badge
-                        variant={campaign?.active ? 'default' : 'outline'}
+                        variant={campaign?.active ? 'success' : 'destructive'}
                         className="mt-1"
                       >
                         {campaign?.active ? 'Active' : 'Inactive'}

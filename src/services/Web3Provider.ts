@@ -169,6 +169,18 @@ export class Web3Provider {
     return contract.methods.withdraw(campaignId).send({ from })
   }
 
+  async feesBalance(){
+    const contract = this.getContract()
+    const feeBalance = await contract.methods.feesBalance().call()
+    return this.web3.utils.fromWei(feeBalance.toString(), 'ether')
+  }
+
+  async adminWithdrawFees(){
+    await this.login()
+    const contract = this.getContract()
+    return contract.methods.adminWithdrawFees().send()
+  }
+
   getRawWeb3(): Web3 {
     return this.web3
   }

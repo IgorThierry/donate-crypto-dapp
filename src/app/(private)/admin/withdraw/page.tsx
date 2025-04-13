@@ -1,34 +1,63 @@
 'use client'
 
-import { useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 
 import Link from 'next/link'
-import { ArrowLeft } from 'lucide-react'
+import { ArrowLeft, Loader2 } from 'lucide-react'
+import { getErrorMessage } from '@/utils/getErrorMessage'
+import { toast } from 'react-toastify'
+import { Web3Provider } from '@/services/Web3Provider'
+import { CampaignCreatedAlert } from '@/components/campaign-created-alert'
 
 export default function AdminWithdraw() {
+  const [isLoading, setIsLoading] = useState(true)
   const [isWithdrawing, setIsWithdrawing] = useState(false)
+  const [balance, setBalance] = useState('0')
 
-  // This would typically come from your blockchain connection or API
-  const [balance, setBalance] = useState('1250.75')
+  const loadData = useCallback(async () => {
+    try {
+      setIsLoading(true)
+      setBalance('0')
+
+      const provider = Web3Provider.getInstance(window.ethereum)
+      const feesBalance = await provider.feesBalance()
+      setBalance(feesBalance)
+    } catch (error) {
+      const errorMessage = getErrorMessage(error)
+      toast.error(errorMessage)
+    } finally {
+      setIsLoading(false)
+    }
+  }, [setIsLoading])
 
   const handleWithdraw = async () => {
-    setIsWithdrawing(true)
-
     try {
-      // Simulate API call or blockchain transaction
-      await new Promise((resolve) => setTimeout(resolve, 2000))
-      console.log('Withdrawal processed')
-
-      // Reset balance after withdrawal
-      setBalance('0.00')
-
-      // You could redirect or show a success message
-      // router.push('/admin/dashboard')
+      setIsWithdrawing(true)
+      const provider = Web3Provider.getInstance(window.ethereum)
+      const { transactionHash } = await provider.adminWithdrawFees()
+      toast.success(<CampaignCreatedAlert message="Funds withdrawn successfully." transactionHash={transactionHash} />)
+      loadData()
     } catch (error) {
-      console.error('Error processing withdrawal:', error)
+      const errorMessage = getErrorMessage(error)
+      toast.error(errorMessage)
     } finally {
       setIsWithdrawing(false)
     }
+  }
+
+  useEffect(() => {
+    loadData()
+  }, [loadData])
+
+  if (isLoading) {
+    return (
+      <div className="min-h-screen bg-gray-50 pt-16 flex items-center justify-center">
+        <div className="flex flex-col items-center">
+          <Loader2 className="h-8 w-8 animate-spin text-blue-600" />
+          <p className="mt-2 text-gray-600">Loading...</p>
+        </div>
+      </div>
+    )
   }
 
   return (
@@ -64,7 +93,7 @@ export default function AdminWithdraw() {
           <div className="flex justify-center">
             <button
               onClick={handleWithdraw}
-              disabled={isWithdrawing || Number.parseFloat(balance) <= 0}
+              disabled={isWithdrawing || balance === '0'}
               className="px-8 py-4 bg-purple-600 hover:bg-purple-700 text-white font-medium rounded-md transition-colors focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 disabled:opacity-70 w-full md:w-auto"
             >
               {isWithdrawing ? 'Processing...' : 'Withdraw Funds'}

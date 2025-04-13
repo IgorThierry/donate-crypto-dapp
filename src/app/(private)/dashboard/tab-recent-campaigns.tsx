@@ -20,6 +20,7 @@ import { TabRecentCampaingsSkeleton } from './tab-recent-campaigns-skeleton'
 import { getErrorMessage } from '@/utils/getErrorMessage'
 import { Web3Provider } from '@/services/Web3Provider'
 import { Campaign } from '@/_types/contract'
+import { Badge } from '@/components/ui/badge'
 
 export function TabRecentCampaings() {
   const [isLoading, setIsLoading] = useState(true)
@@ -99,6 +100,11 @@ export function TabRecentCampaings() {
                   <span className="font-semibold text-blue-600">
                     {campaign.balance}
                   </span>
+                </div>
+                <div>
+                  <Badge variant={campaign.active ? 'success' : 'destructive'}>
+                    {campaign.active ? 'active' : 'inactive'}
+                  </Badge>
                 </div>
               </CardContent>
               <CardFooter className="flex justify-between">
