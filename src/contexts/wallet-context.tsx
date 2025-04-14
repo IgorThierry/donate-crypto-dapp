@@ -7,7 +7,7 @@ import {
   useState,
   type ReactNode,
 } from 'react'
-import { useRouter } from 'next/navigation'
+
 import { deleteCookie, setCookie, getCookie } from 'cookies-next/client'
 
 import { Web3Provider } from '@/services/Web3Provider'
@@ -45,8 +45,6 @@ export function WalletProvider({ children }: { children: ReactNode }) {
   const [balance, setBalance] = useState<string | null>(null)
   const [isConnecting, setIsConnecting] = useState(false)
   const [error, setError] = useState<string | null>(null)
-
-  const router = useRouter()
 
   // Conectar à carteira MetaMask (real ou simulada)
   const connectWallet = async () => {
