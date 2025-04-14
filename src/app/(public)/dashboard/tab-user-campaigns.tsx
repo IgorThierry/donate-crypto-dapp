@@ -164,7 +164,7 @@ export function TabUserCampaigns() {
                             <div className="text-sm font-medium text-gray-900">
                               {campaign.title}
                             </div>
-                            <div className="text-sm text-gray-500 line-clamp-1">
+                            <div className="text-sm text-gray-500 truncate max-w-[200px] sm:max-w-[150px] md:max-w-[250px] lg:max-w-[350px]">
                               {campaign.description}
                             </div>
                           </div>
