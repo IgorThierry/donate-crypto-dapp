@@ -5,7 +5,16 @@ import { Plus } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { DashboardTab, TabOption } from './DasbordTab'
 
-export default async function DashboardPage() {
+import { DismissibleAlert } from '@/components/dismissible-alert'
+
+type SearchParams = { [key: string]: string | string[] | undefined }
+
+type PageProps = {
+  searchParams: SearchParams
+}
+
+export default async function DashboardPage({ searchParams }: PageProps) {
+  const { needLogin } = searchParams
   const cookieStore = await cookies()
   const activeTabCookie = cookieStore.get('activeTab')?.value || 'recent'
 
@@ -20,6 +29,17 @@ export default async function DashboardPage() {
             </Button>
           </Link>
         </div>
+
+        {needLogin && (
+          <>
+            <DismissibleAlert
+              variant="destructive"
+              title="Login Required"
+              description="Please connect your wallet."
+              className="mb-4"
+            />
+          </>
+        )}
 
         <DashboardTab initialTab={activeTabCookie as TabOption} />
       </div>
