@@ -25,6 +25,7 @@ const initialFormData = {
 }
 
 export default function EditCampaign() {
+  const { account } = useWallet()
   const params = useParams()
   const router = useRouter()
   const campaignId = params.id as string
@@ -110,8 +111,7 @@ export default function EditCampaign() {
         const { title, description, imageUrl, videoUrl, author } = campaign
 
         const isCampaignOwner =
-          author.toLocaleUpperCase() ===
-          provider.getAccount()?.toLocaleUpperCase()
+          author.toLocaleUpperCase() === account?.toLocaleUpperCase()
 
         if (!isCampaignOwner) {
           setErrorOnLoad('You are not the author of this campaign')
@@ -136,7 +136,7 @@ export default function EditCampaign() {
     }
 
     fetchCampaignData()
-  }, [campaignId])
+  }, [campaignId, account])
 
   if (isLoading) {
     return (

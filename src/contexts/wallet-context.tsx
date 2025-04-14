@@ -85,6 +85,7 @@ export function WalletProvider({ children }: { children: ReactNode }) {
     deleteCookie(getStorageKey('account'))
     deleteCookie(getStorageKey('balance'))
     deleteCookie('activeTab')
+    router.push('/')
   }
 
   // Verificar se o usuário já estava conectado anteriormente

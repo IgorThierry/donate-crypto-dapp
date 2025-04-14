@@ -46,7 +46,7 @@ export interface MyContract {
       videoUrl: string,
       imageUrl: string,
     ): {
-      send(options: { from: string }): Promise<TransactionReceipt>
+      send(): Promise<TransactionReceipt>
     }
     nextId(): {
       call(): Promise<number>

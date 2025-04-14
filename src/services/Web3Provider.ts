@@ -66,6 +66,7 @@ export class Web3Provider {
   }
 
   async addCampaign(campaign: AddCampaignParams) {
+    await this.login()
     const contract = this.getContract()
     return contract.methods
       .addCampaign(
@@ -136,11 +137,8 @@ export class Web3Provider {
   }
 
   async editCampaign(id: number | string, campaign: AddCampaignParams) {
+    await this.login()
     const contract = this.getContract()
-    const from = this.account
-    if (!from) {
-      throw new Error('editCampaign - No wallet found')
-    }
     return contract.methods
       .editCampaign(
         id,
@@ -149,7 +147,7 @@ export class Web3Provider {
         campaign.videoUrl,
         campaign.imageUrl,
       )
-      .send({ from })
+      .send()
   }
 
   async donate(id: number | string, amount: string) {
