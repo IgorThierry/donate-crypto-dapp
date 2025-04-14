@@ -90,7 +90,9 @@ export function TabRecentCampaings() {
               </div>
               <CardHeader>
                 <CardTitle>{campaign.title}</CardTitle>
-                <CardDescription>{campaign.description}</CardDescription>
+                <CardDescription>
+                  <div className='line-clamp-3'>{campaign.description}</div>
+                </CardDescription>
               </CardHeader>
               <CardContent>
                 <div className="flex justify-between items-center">
