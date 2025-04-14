@@ -6,6 +6,7 @@ import { Menu, X, LogOut, Wallet } from 'lucide-react'
 import { useWallet } from '@/contexts/wallet-context'
 import { isAdmin } from '@/utils/isAdmin'
 import { AccountBalanceBadge } from './account-balance-badge'
+import { ConnectButton } from './connect-wallet-button'
 
 export function Navigation() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
@@ -90,7 +91,7 @@ export function Navigation() {
                 <span>{balance} POL</span>
               </div>
             </li>
-            {account && (
+            {account ? (
               <li>
                 <button
                   onClick={disconnectWallet}
@@ -99,6 +100,10 @@ export function Navigation() {
                   <LogOut className="h-4 w-4 mr-2" />
                   <span>Desconectar</span>
                 </button>
+              </li>
+            ) : (
+              <li>
+                <ConnectButton size="sm" />
               </li>
             )}
           </ul>

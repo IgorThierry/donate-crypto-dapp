@@ -3,7 +3,7 @@
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
-import { Edit, ExternalLink, Loader2 } from 'lucide-react'
+import { Edit, ExternalLink } from 'lucide-react'
 
 import { Button } from '@/components/ui/button'
 import { TabsContent } from '@/components/ui/tabs'
@@ -18,7 +18,7 @@ import { Web3Provider } from '@/services/Web3Provider'
 import { useWallet } from '@/contexts/wallet-context'
 
 export function TabUserCampaigns() {
-  const { account, connectWallet, isConnecting } = useWallet()
+  const { account } = useWallet()
   const [isLoading, setIsLoading] = useState(true)
   const [campaigns, setCampaigns] = useState<Campaign[]>([])
   const [error, setError] = useState<string | null>(null)
@@ -62,18 +62,11 @@ export function TabUserCampaigns() {
     loadData()
   }
 
-  const handleConnectWallet = async () => {
-    try {
-      await connectWallet()
-    } catch (err) {
-      const errorMessage = getErrorMessage(err)
-      toast.error(errorMessage)
-    }
-  }
-
   useEffect(() => {
     if (account) {
       loadData()
+    } else {
+      setIsLoading(false)
     }
   }, [loadData, account])
 
@@ -95,20 +88,13 @@ export function TabUserCampaigns() {
 
   if (!account) {
     return (
-      <div className="bg-white p-6 rounded-lg shadow text-center py-8">
-        <p className="text-muted-foreground mb-4">
-          You need to connect your wallet to view your campaigns.
-        </p>
-
-        <Button
-          className="bg-blue-600 hover:bg-blue-700"
-          onClick={handleConnectWallet}
-          disabled={isConnecting}
-        >
-          Connect Wallet{' '}
-          {isConnecting && <Loader2 className="animate-spin ml-2" />}
-        </Button>
-      </div>
+      <TabsContent value="my-campaigns">
+        <div className="bg-white p-6 rounded-lg shadow text-center py-8">
+          <p className="text-muted-foreground">
+            You need to connect your wallet to view your campaigns.
+          </p>
+        </div>
+      </TabsContent>
     )
   }
 
