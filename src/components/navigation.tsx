@@ -9,7 +9,7 @@ import { AccountBalanceBadge } from './account-balance-badge'
 
 export function Navigation() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
-  const { isConnected, account, balance, disconnectWallet } = useWallet()
+  const { account, balance, disconnectWallet } = useWallet()
 
   const accountFormatted = account?.slice(0, 6) + '...' + account?.slice(-4)
 
@@ -22,7 +22,7 @@ export function Navigation() {
           </span>
         </Link>
 
-        {isConnected && (
+        {account && (
           <AccountBalanceBadge
             account={account || ''}
             balance={balance || ''}
@@ -58,51 +58,48 @@ export function Navigation() {
             </li>
             <li>
               <Link
+                href="/dashboard"
+                className="block py-2 pl-3 pr-4 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0"
+              >
+                Dashboard
+              </Link>
+            </li>
+            <li>
+              <Link
                 href="/about"
                 className="block py-2 pl-3 pr-4 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0"
               >
                 About
               </Link>
             </li>
+            {isAdmin(account || '') && (
+              <li>
+                <Link
+                  href="/admin/withdraw"
+                  className="block py-2 pl-3 pr-4 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0"
+                >
+                  Admin
+                </Link>
+              </li>
+            )}
 
-            {isConnected && (
-              <>
-                <li>
-                  <Link
-                    href="/dashboard"
-                    className="block py-2 pl-3 pr-4 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0"
-                  >
-                    Dashboard
-                  </Link>
-                </li>
-                {isAdmin(account || '') && (
-                  <li>
-                    <Link
-                      href="/admin/withdraw"
-                      className="block py-2 pl-3 pr-4 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0"
-                    >
-                      Admin
-                    </Link>
-                  </li>
-                )}
-
-                <li className="md:hidden">
-                  <div className="flex items-center py-2 pl-3 pr-4 text-gray-900">
-                    <Wallet className="h-4 w-4 mr-2" />
-                    <span className="font-medium mr-2">{accountFormatted}</span>
-                    <span>{balance} POL</span>
-                  </div>
-                </li>
-                <li>
-                  <button
-                    onClick={disconnectWallet}
-                    className="flex items-center w-full text-left py-2 pl-3 pr-4 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0"
-                  >
-                    <LogOut className="h-4 w-4 mr-2" />
-                    <span>Desconectar</span>
-                  </button>
-                </li>
-              </>
+            <li className="md:hidden">
+              <div className="flex items-center py-2 pl-3 pr-4 text-gray-900">
+                <Wallet className="h-4 w-4 mr-2" />
+                <span className="font-medium mr-2">{accountFormatted}</span>
+                <span>{balance} POL</span>
+              </div>
+            </li>
+            {account && (
+              <li>
+                <button
+                  onClick={disconnectWallet}
+                  className="flex items-center w-full text-left py-2 pl-3 pr-4 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0"
+                >
+                  <LogOut className="h-4 w-4 mr-2" />
+                  <span>Desconectar</span>
+                </button>
+              </li>
             )}
           </ul>
         </div>

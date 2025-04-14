@@ -11,12 +11,12 @@ import { useRouter } from 'next/navigation'
 import { deleteCookie, setCookie, getCookie } from 'cookies-next/client'
 
 import { Web3Provider } from '@/services/Web3Provider'
+import { getStorageKey } from '@/utils/getStorageKey'
 
 // Tipos para o contexto
 type WalletContextType = {
   account: string | null
   balance: string | null
-  isConnected: boolean
   isConnecting: boolean
   error: string | null
   connectWallet: () => Promise<void>
@@ -27,7 +27,6 @@ type WalletContextType = {
 const defaultContext: WalletContextType = {
   account: null,
   balance: null,
-  isConnected: false,
   isConnecting: false,
   error: null,
   connectWallet: async () => {},
@@ -44,17 +43,10 @@ export const useWallet = () => useContext(WalletContext)
 export function WalletProvider({ children }: { children: ReactNode }) {
   const [account, setAccount] = useState<string | null>(null)
   const [balance, setBalance] = useState<string | null>(null)
-  const [isConnected, setIsConnected] = useState(false)
   const [isConnecting, setIsConnecting] = useState(false)
   const [error, setError] = useState<string | null>(null)
 
   const router = useRouter()
-
-  // Verificar se o MetaMask está instalado ou se estamos em modo de simulação
-  /* const checkIfMetaMaskIsAvailable = () => {
-    const { ethereum } = window as any
-    return Boolean(ethereum && ethereum.isMetaMask)
-  } */
 
   // Conectar à carteira MetaMask (real ou simulada)
   const connectWallet = async () => {
@@ -71,9 +63,8 @@ export function WalletProvider({ children }: { children: ReactNode }) {
       setAccount(account)
       setBalance(foarmattedBalance)
 
-      setIsConnected(true)
-      setCookie('isWalletConnected', 'true')
-      setCookie('wallet', account)
+      setCookie(getStorageKey('account'), account)
+      setCookie(getStorageKey('balance'), foarmattedBalance)
     } catch (error: Error | unknown) {
       console.error('Erro ao conectar com MetaMask:', error)
       let errorMessage = 'Erro ao conectar com MetaMask'
@@ -90,19 +81,18 @@ export function WalletProvider({ children }: { children: ReactNode }) {
   const disconnectWallet = () => {
     setAccount(null)
     setBalance(null)
-    setIsConnected(false)
-    deleteCookie('isWalletConnected')
-    deleteCookie('wallet')
 
+    deleteCookie(getStorageKey('account'))
+    deleteCookie(getStorageKey('balance'))
     router.push('/')
   }
 
   // Verificar se o usuário já estava conectado anteriormente
   useEffect(() => {
     const checkConnection = async () => {
-      const isWalletConnected = getCookie('isWalletConnected') === 'true'
+      const account = getCookie(getStorageKey('account')) || null
 
-      if (isWalletConnected) {
+      if (account) {
         await connectWallet()
       }
     }
@@ -113,7 +103,6 @@ export function WalletProvider({ children }: { children: ReactNode }) {
   const value = {
     account,
     balance,
-    isConnected,
     isConnecting,
     error,
     connectWallet,

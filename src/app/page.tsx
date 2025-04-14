@@ -7,8 +7,7 @@ import { useWallet } from '@/contexts/wallet-context'
 import { Loader2 } from 'lucide-react'
 
 export default function Home() {
-  const { isConnected, isConnecting, connectWallet, error, account, balance } =
-    useWallet()
+  const { isConnecting, connectWallet, error, account, balance } = useWallet()
 
   const router = useRouter()
 
@@ -46,7 +45,7 @@ export default function Home() {
             campanha existente.
           </p>
 
-          {isConnected ? (
+          {account ? (
             <div className="space-y-4">
               <div className="flex items-center justify-between p-4 bg-blue-50 border border-blue-200 rounded-lg">
                 <div>
@@ -101,7 +100,7 @@ export default function Home() {
             </div>
           )}
 
-          {isConnected && (
+          {account && (
             <div
               className="mt-4 w-full text-sm text-green-800 bg-green-100 border border-green-300 px-4 py-3 rounded shadow-sm"
               role="alert"

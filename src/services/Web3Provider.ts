@@ -2,6 +2,7 @@ import { Campaign, CampaignRaw, MyContract } from '@/_types/contract'
 import Web3 from 'web3'
 import ABI from './ABI.json'
 import { getCookie, setCookie } from 'cookies-next/client'
+import { getStorageKey } from '@/utils/getStorageKey'
 
 const CONTRACT_ADDRESS = '0x26528e2b7932d049BB9e5dA351962c65F2aFF0fE'
 
@@ -23,7 +24,7 @@ export class Web3Provider {
     }
 
     this.web3 = new Web3(ethereum)
-    this.account = getCookie('wallet') || null
+    this.account = getCookie(getStorageKey('account')) || null
   }
 
   static getInstance(ethereum: unknown): Web3Provider {
@@ -43,7 +44,7 @@ export class Web3Provider {
       throw new Error('No accounts found')
     }
     this.account = accounts[0]
-    setCookie('wallet', accounts[0])
+    setCookie('account', accounts[0])
     return accounts[0]
   }
 
@@ -169,13 +170,13 @@ export class Web3Provider {
     return contract.methods.withdraw(campaignId).send({ from })
   }
 
-  async feesBalance(){
+  async feesBalance() {
     const contract = this.getContract()
     const feeBalance = await contract.methods.feesBalance().call()
     return this.web3.utils.fromWei(feeBalance.toString(), 'ether')
   }
 
-  async adminWithdrawFees(){
+  async adminWithdrawFees() {
     await this.login()
     const contract = this.getContract()
     return contract.methods.adminWithdrawFees().send()
