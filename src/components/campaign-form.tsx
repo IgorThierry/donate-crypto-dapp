@@ -78,7 +78,7 @@ export function CampaignForm({
             id="description"
             name="description"
             value={formData.description}
-            maxLength={250}
+            maxLength={500}
             onChange={onChange}
             required
             rows={5}
