@@ -4,14 +4,16 @@ import { Plus } from 'lucide-react'
 
 import { Button } from '@/components/ui/button'
 import { DashboardTab, TabOption } from './DasbordTab'
-import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
+
 import { DismissibleAlert } from '@/components/dismissible-alert'
 
-export default async function DashboardPage({
-  searchParams,
-}: {
-  searchParams: { [key: string]: string | string[] | undefined }
-}) {
+type SearchParams = { [key: string]: string | string[] | undefined }
+
+type PageProps = {
+  searchParams: SearchParams
+}
+
+export default async function DashboardPage({ searchParams }: PageProps) {
   const { needLogin } = searchParams
   const cookieStore = await cookies()
   const activeTabCookie = cookieStore.get('activeTab')?.value || 'recent'
