@@ -1,4 +1,3 @@
-import { useState } from 'react'
 import {
   Dialog,
   DialogContent,
@@ -49,7 +48,7 @@ export function WithdrawButton({
               You are about to make a withdrawal, after that the campaign will
               be closed.
             </span>
-            <span className='block'>Withdrawal fee: 1% of the amount</span>
+            <span className="block">Withdrawal fee: 1% of the amount</span>
           </DialogDescription>
         </DialogHeader>
         <DialogFooter>
