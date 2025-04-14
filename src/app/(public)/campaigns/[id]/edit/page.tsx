@@ -16,6 +16,8 @@ import {
   CampaignCreatedAlertProps,
 } from '@/components/campaign-created-alert'
 import { useWallet } from '@/contexts/wallet-context'
+import { getCookie } from 'cookies-next/client'
+import { getStorageKey } from '@/utils/getStorageKey'
 
 const initialFormData = {
   title: '',
@@ -135,8 +137,15 @@ export default function EditCampaign() {
       }
     }
 
-    fetchCampaignData()
-  }, [campaignId, account])
+    const cookieAccount = getCookie(getStorageKey('account')) || null
+    if (!account && !cookieAccount) {
+      router.push('/dashboard')
+    }
+
+    if (account) {
+      fetchCampaignData()
+    }
+  }, [campaignId, account, router])
 
   if (isLoading) {
     return (

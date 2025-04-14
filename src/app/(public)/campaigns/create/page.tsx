@@ -1,7 +1,7 @@
 'use client'
 
 import type React from 'react'
-import { useState, type FormEvent } from 'react'
+import { useEffect, useState, type FormEvent } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { ArrowLeft, CheckCircle, Copy } from 'lucide-react'
@@ -15,6 +15,9 @@ import {
   CampaignCreatedAlert,
   CampaignCreatedAlertProps,
 } from '@/components/campaign-created-alert'
+import { useWallet } from '@/contexts/wallet-context'
+import { getStorageKey } from '@/utils/getStorageKey'
+import { getCookie } from 'cookies-next/client'
 
 const initialFormData = {
   title: '',
@@ -24,6 +27,7 @@ const initialFormData = {
 }
 
 export default function CreateCampaign() {
+  const { account } = useWallet()
   const router = useRouter()
 
   const [formData, setFormData] = useState(initialFormData)
@@ -86,6 +90,13 @@ export default function CreateCampaign() {
       setIsSubmitting(false)
     }
   }
+
+  useEffect(()=> {
+    const cookieAccount = getCookie(getStorageKey('account')) || null
+    if(!account && !cookieAccount) {
+      router.push('/dashboard')
+    }
+  }, [account, router])
 
   return (
     <div className="min-h-screen bg-gray-50 pt-16">
