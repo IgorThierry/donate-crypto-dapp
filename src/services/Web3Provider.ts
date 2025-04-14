@@ -4,7 +4,7 @@ import ABI from './ABI.json'
 import { getCookie, setCookie } from 'cookies-next/client'
 import { getStorageKey } from '@/utils/getStorageKey'
 
-const CONTRACT_ADDRESS = '0x26528e2b7932d049BB9e5dA351962c65F2aFF0fE'
+const CONTRACT_ADDRESS = process.env.NEXT_PUBLIC_CONTRACT_ADDRESS || ''
 
 export type AddCampaignParams = {
   title: string
