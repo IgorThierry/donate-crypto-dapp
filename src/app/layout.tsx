@@ -20,6 +20,9 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: 'Donate Crypto Dapp',
   description: 'A decentralized application for donating crypto',
+  icons: {
+    icon: '/favicon.png',
+  },
 }
 
 export default function RootLayout({
