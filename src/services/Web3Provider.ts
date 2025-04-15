@@ -44,7 +44,7 @@ export class Web3Provider {
       throw new Error('No accounts found')
     }
     this.account = accounts[0]
-    setCookie('account', accounts[0])
+    setCookie(getStorageKey('account'), accounts[0])
     return accounts[0]
   }
 
