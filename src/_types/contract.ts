@@ -23,6 +23,7 @@ export type Campaign = {
   videoUrl: string
   imageUrl: string
   balance: string // em wei
+  goal: string // em wei
   supporters: number // número de apoiadores
   active: boolean
   createdAt: string // timestamp

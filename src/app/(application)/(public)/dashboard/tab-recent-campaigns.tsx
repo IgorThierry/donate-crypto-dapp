@@ -78,44 +78,79 @@ export function TabRecentCampaings() {
       )}
       {!isLoading && !error && campaigns.length > 0 && (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {campaigns.map((campaign) => (
-            <Card key={campaign.id} className="overflow-hidden pt-0">
-              <div className="relative h-48 w-full">
-                <Image
-                  src={campaign.imageUrl || '/placeholder.svg'}
-                  alt={campaign.title}
-                  fill
-                  className="object-cover"
-                />
-              </div>
-              <CardHeader>
-                <CardTitle>{campaign.title}</CardTitle>
-                <CardDescription>
-                  <div className='line-clamp-3'>{campaign.description}</div>
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <div className="flex justify-between items-center">
-                  <span className="text-sm text-muted-foreground">
-                    Current Balance:
-                  </span>
-                  <span className="font-semibold text-blue-600">
-                    {campaign.balance}
-                  </span>
+          {campaigns.map((campaign) => {
+            const goal = Number(campaign.goal || '0')
+            const balance = Number(campaign.balance)
+            const goalReachedPercentage =
+              goal > 0 ? Math.min((balance / goal) * 100, 100) : 100
+
+            return (
+              <Card key={campaign.id} className="overflow-hidden pt-0">
+                <div className="relative h-48 w-full">
+                  <Image
+                    src={campaign.imageUrl || '/placeholder.svg'}
+                    alt={campaign.title}
+                    fill
+                    className="object-cover"
+                  />
                 </div>
-                <div>
-                  <Badge variant={campaign.active ? 'success' : 'destructive'}>
-                    {campaign.active ? 'active' : 'inactive'}
-                  </Badge>
-                </div>
-              </CardContent>
-              <CardFooter className="flex justify-between">
-                <Link href={`/campaigns/${campaign.id}`}>
-                  <Button variant="outline">View Details</Button>
-                </Link>
-              </CardFooter>
-            </Card>
-          ))}
+                <CardHeader>
+                  <CardTitle>{campaign.title}</CardTitle>
+                  <CardDescription>
+                    <div className="line-clamp-3">{campaign.description}</div>
+                  </CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <div className="flex justify-between items-center">
+                    <span className="text-sm text-muted-foreground">
+                      Current Balance:
+                    </span>
+                    <span className="font-semibold text-blue-600">
+                      {campaign.balance}
+                    </span>
+                  </div>
+                  {goal > 0 && (
+                    <>
+                      <div className="flex justify-between items-center">
+                        <span className="text-sm text-muted-foreground">
+                          Goal:
+                        </span>
+                        <span className="font-semibold text-blue-600">
+                          {goal}
+                        </span>
+                      </div>
+                      <div className="mt-2">
+                        <div className="h-2 w-full bg-gray-200 rounded-full overflow-hidden">
+                          <div
+                            className="h-full bg-blue-600"
+                            style={{
+                              width: `${goalReachedPercentage}%`,
+                            }}
+                          ></div>
+                        </div>
+                        <div className="text-sm text-muted-foreground mt-1 text-right">
+                          {goalReachedPercentage.toFixed(2)}% of goal reached
+                        </div>
+                      </div>
+                    </>
+                  )}
+
+                  <div>
+                    <Badge
+                      variant={campaign.active ? 'success' : 'destructive'}
+                    >
+                      {campaign.active ? 'active' : 'inactive'}
+                    </Badge>
+                  </div>
+                </CardContent>
+                <CardFooter className="flex justify-between">
+                  <Link href={`/campaigns/${campaign.id}`}>
+                    <Button variant="outline">View Details</Button>
+                  </Link>
+                </CardFooter>
+              </Card>
+            )
+          })}
         </div>
       )}
     </TabsContent>
