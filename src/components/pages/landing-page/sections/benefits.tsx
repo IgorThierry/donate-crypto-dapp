@@ -12,57 +12,56 @@ export function BenefitsSection() {
           <div className="flex flex-col justify-center space-y-4">
             <div className="space-y-2">
               <div className="inline-block rounded-lg bg-emerald-100 px-3 py-1 text-sm text-emerald-700">
-                Benefícios
+                Benefits
               </div>
               <h2 className="text-3xl font-bold tracking-tighter md:text-4xl/tight">
-                Por que escolher a tecnologia blockchain?
+                Why Choose Blockchain Technology?
               </h2>
               <p className="max-w-[600px] text-muted-foreground md:text-lg">
-                A tecnologia blockchain traz inúmeras vantagens para o mundo das
-                doações, tornando todo o processo mais seguro, transparente e
-                eficiente.
+                Blockchain technology brings numerous advantages to the world of
+                donations, making the whole process more secure, transparent,
+                and efficient.
               </p>
             </div>
             <ul className="grid gap-4">
               <li className="flex items-start gap-2">
                 <CheckCircle className="mt-1 h-5 w-5 text-emerald-500" />
                 <div>
-                  <h3 className="font-bold">Transparência Total</h3>
+                  <h3 className="font-bold">Total Transparency</h3>
                   <p className="text-muted-foreground">
-                    Todas as transações são registradas publicamente na
-                    blockchain, permitindo que qualquer pessoa verifique o fluxo
-                    de doações.
+                    All transactions are publicly recorded on the blockchain,
+                    allowing anyone to verify the flow of donations.
                   </p>
                 </div>
               </li>
               <li className="flex items-start gap-2">
                 <CheckCircle className="mt-1 h-5 w-5 text-emerald-500" />
                 <div>
-                  <h3 className="font-bold">Segurança Avançada</h3>
+                  <h3 className="font-bold">Advanced Security</h3>
                   <p className="text-muted-foreground">
-                    A tecnologia blockchain é praticamente inviolável,
-                    garantindo que as doações cheguem ao destino correto sem
-                    intermediários.
+                    Blockchain technology is nearly impervious, ensuring that
+                    donations reach the correct destination without
+                    intermediaries.
                   </p>
                 </div>
               </li>
               <li className="flex items-start gap-2">
                 <CheckCircle className="mt-1 h-5 w-5 text-emerald-500" />
                 <div>
-                  <h3 className="font-bold">Taxas Reduzidas</h3>
+                  <h3 className="font-bold">Reduced Fees</h3>
                   <p className="text-muted-foreground">
-                    Com apenas 2% de taxa, oferecemos uma das menores taxas do
-                    mercado, maximizando o valor que chega ao beneficiário.
+                    With only a 2% fee, we offer one of the lowest rates in the
+                    market, maximizing the value that reaches the beneficiary.
                   </p>
                 </div>
               </li>
               <li className="flex items-start gap-2">
                 <CheckCircle className="mt-1 h-5 w-5 text-emerald-500" />
                 <div>
-                  <h3 className="font-bold">Alcance Global</h3>
+                  <h3 className="font-bold">Global Reach</h3>
                   <p className="text-muted-foreground">
-                    Receba doações de qualquer lugar do mundo sem restrições
-                    geográficas ou burocracias bancárias.
+                    Receive donations from anywhere in the world without
+                    geographic restrictions or banking bureaucracies.
                   </p>
                 </div>
               </li>
