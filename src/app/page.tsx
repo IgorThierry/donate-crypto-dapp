@@ -1,3 +1,5 @@
+'use client'
+
 import Link from 'next/link'
 import Image from 'next/image'
 import { Button } from '@/components/ui/button'
@@ -9,11 +11,39 @@ import {
   Shield,
   Zap,
 } from 'lucide-react'
+import { useEffect, useRef, useState } from 'react'
 
 export default function LandingPage() {
+  // State to track scroll position for performance optimizations
+  const [scrollY, setScrollY] = useState(0)
+  const headerRef = useRef(null)
+
+  // Throttle scroll event for better performance
+  useEffect(() => {
+    let ticking = false
+
+    const handleScroll = () => {
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          setScrollY(window.scrollY)
+          ticking = false
+        })
+        ticking = true
+      }
+    }
+
+    window.addEventListener('scroll', handleScroll, { passive: true })
+    return () => window.removeEventListener('scroll', handleScroll)
+  }, [])
+
   return (
     <div className="flex min-h-screen flex-col">
-      <header className="sticky top-0 z-40 border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+      <header
+        ref={headerRef}
+        className={`sticky top-0 z-40 border-b backdrop-blur supports-[backdrop-filter]:bg-background/60 ${
+          scrollY > 50 ? 'bg-background/95' : 'bg-background/80'
+        }`}
+      >
         <div className="container flex h-16 items-center justify-between mx-auto">
           <div className="flex items-center gap-2 font-bold text-xl">
             <div className="h-8 w-8 rounded-full bg-gradient-to-br from-emerald-400 to-teal-600 flex items-center justify-center">
@@ -101,6 +131,7 @@ export default function LandingPage() {
                     fill
                     className="object-contain"
                     priority
+                    loading="eager"
                   />
                 </div>
               </div>
@@ -126,7 +157,7 @@ export default function LandingPage() {
               </div>
             </div>
             <div className="mx-auto grid max-w-5xl grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3 mt-12">
-              <div className="flex flex-col items-center space-y-2 rounded-lg border bg-background p-6 shadow-sm">
+              <div className="flex flex-col items-center space-y-2 rounded-lg border bg-background p-6 shadow-sm will-change-transform">
                 <div className="rounded-full bg-emerald-100 p-3">
                   <Shield className="h-6 w-6 text-emerald-600" />
                 </div>
@@ -136,7 +167,7 @@ export default function LandingPage() {
                   segurança e transparência.
                 </p>
               </div>
-              <div className="flex flex-col items-center space-y-2 rounded-lg border bg-background p-6 shadow-sm">
+              <div className="flex flex-col items-center space-y-2 rounded-lg border bg-background p-6 shadow-sm will-change-transform">
                 <div className="rounded-full bg-emerald-100 p-3">
                   <Zap className="h-6 w-6 text-emerald-600" />
                 </div>
@@ -146,7 +177,7 @@ export default function LandingPage() {
                   imediatamente.
                 </p>
               </div>
-              <div className="flex flex-col items-center space-y-2 rounded-lg border bg-background p-6 shadow-sm">
+              <div className="flex flex-col items-center space-y-2 rounded-lg border bg-background p-6 shadow-sm will-change-transform">
                 <div className="rounded-full bg-emerald-100 p-3">
                   <Globe className="h-6 w-6 text-emerald-600" />
                 </div>
@@ -156,7 +187,7 @@ export default function LandingPage() {
                   geográficas.
                 </p>
               </div>
-              <div className="flex flex-col items-center space-y-2 rounded-lg border bg-background p-6 shadow-sm">
+              <div className="flex flex-col items-center space-y-2 rounded-lg border bg-background p-6 shadow-sm will-change-transform">
                 <div className="rounded-full bg-emerald-100 p-3">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -180,7 +211,7 @@ export default function LandingPage() {
                   mercado.
                 </p>
               </div>
-              <div className="flex flex-col items-center space-y-2 rounded-lg border bg-background p-6 shadow-sm">
+              <div className="flex flex-col items-center space-y-2 rounded-lg border bg-background p-6 shadow-sm will-change-transform">
                 <div className="rounded-full bg-emerald-100 p-3">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -204,7 +235,7 @@ export default function LandingPage() {
                   seguras.
                 </p>
               </div>
-              <div className="flex flex-col items-center space-y-2 rounded-lg border bg-background p-6 shadow-sm">
+              <div className="flex flex-col items-center space-y-2 rounded-lg border bg-background p-6 shadow-sm will-change-transform">
                 <div className="rounded-full bg-emerald-100 p-3">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -255,7 +286,7 @@ export default function LandingPage() {
               </div>
             </div>
             <div className="mx-auto mt-12 grid max-w-5xl gap-6 md:grid-cols-3">
-              <div className="relative flex flex-col items-center space-y-4 rounded-lg border bg-background p-6 shadow-sm">
+              <div className="relative flex flex-col items-center space-y-4 rounded-lg border bg-background p-6 shadow-sm will-change-transform">
                 <div className="absolute -top-3 left-1/2 -translate-x-1/2 rounded-full bg-emerald-500 px-3 py-1 text-sm font-medium text-white">
                   Passo 1
                 </div>
@@ -268,7 +299,7 @@ export default function LandingPage() {
                   meta e adicione sua carteira.
                 </p>
               </div>
-              <div className="relative flex flex-col items-center space-y-4 rounded-lg border bg-background p-6 shadow-sm">
+              <div className="relative flex flex-col items-center space-y-4 rounded-lg border bg-background p-6 shadow-sm will-change-transform">
                 <div className="absolute -top-3 left-1/2 -translate-x-1/2 rounded-full bg-emerald-500 px-3 py-1 text-sm font-medium text-white">
                   Passo 2
                 </div>
@@ -281,7 +312,7 @@ export default function LandingPage() {
                   usando nossas ferramentas.
                 </p>
               </div>
-              <div className="relative flex flex-col items-center space-y-4 rounded-lg border bg-background p-6 shadow-sm">
+              <div className="relative flex flex-col items-center space-y-4 rounded-lg border bg-background p-6 shadow-sm will-change-transform">
                 <div className="absolute -top-3 left-1/2 -translate-x-1/2 rounded-full bg-emerald-500 px-3 py-1 text-sm font-medium text-white">
                   Passo 3
                 </div>
@@ -469,7 +500,7 @@ export default function LandingPage() {
               </div>
             </div>
             <div className="mx-auto grid max-w-5xl gap-6 py-12 md:grid-cols-2">
-              <div className="rounded-lg border bg-background p-6">
+              <div className="rounded-lg border bg-background p-6 will-change-transform">
                 <h3 className="text-lg font-bold">
                   What cryptocurrencies do you support?
                 </h3>
@@ -479,7 +510,7 @@ export default function LandingPage() {
                   more tokens.
                 </p>
               </div>
-              <div className="rounded-lg border bg-background p-6">
+              <div className="rounded-lg border bg-background p-6 will-change-transform">
                 <h3 className="text-lg font-bold">
                   How do I withdraw my campaign funds?
                 </h3>
@@ -489,7 +520,7 @@ export default function LandingPage() {
                   automatically deducted.
                 </p>
               </div>
-              <div className="rounded-lg border bg-background p-6">
+              <div className="rounded-lg border bg-background p-6 will-change-transform">
                 <h3 className="text-lg font-bold">
                   Is my personal information secure?
                 </h3>
@@ -499,7 +530,7 @@ export default function LandingPage() {
                   collect what's necessary to operate the platform.
                 </p>
               </div>
-              <div className="rounded-lg border bg-background p-6">
+              <div className="rounded-lg border bg-background p-6 will-change-transform">
                 <h3 className="text-lg font-bold">
                   Can I donate without cryptocurrency?
                 </h3>
@@ -508,7 +539,7 @@ export default function LandingPage() {
                   We automatically convert these to crypto for the campaign.
                 </p>
               </div>
-              <div className="rounded-lg border bg-background p-6">
+              <div className="rounded-lg border bg-background p-6 will-change-transform">
                 <h3 className="text-lg font-bold">
                   How do I know campaigns are legitimate?
                 </h3>
@@ -518,7 +549,7 @@ export default function LandingPage() {
                   transparency.
                 </p>
               </div>
-              <div className="rounded-lg border bg-background p-6">
+              <div className="rounded-lg border bg-background p-6 will-change-transform">
                 <h3 className="text-lg font-bold">
                   What happens if a campaign doesn't reach its goal?
                 </h3>
@@ -764,7 +795,7 @@ export default function LandingPage() {
         <div className="border-t py-6">
           <div className="container flex flex-col items-center justify-between gap-4 px-4 md:px-6 lg:flex-row mx-auto">
             <p className="text-center text-sm text-muted-foreground lg:text-left">
-              © {new Date().getFullYear()} DonateCrypto. All rights reserved.
+              © 2025 DonateCrypto. All rights reserved.
             </p>
             <p className="text-center text-sm text-muted-foreground lg:text-left">
               Powered by blockchain technology for maximum transparency and
