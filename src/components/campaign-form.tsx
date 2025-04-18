@@ -1,6 +1,11 @@
 'use client'
 
-import { FormEvent } from 'react'
+import type React from 'react'
+
+import { type FormEvent, useState } from 'react'
+import ReactMarkdown from 'react-markdown'
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
+import { Pencil, Eye } from 'lucide-react'
 
 export type CampaignFormData = {
   title: string
@@ -28,6 +33,8 @@ export function CampaignForm({
   onSubmit,
   onChange,
 }: CampaignFormProps) {
+  const [activeTab, setActiveTab] = useState<string>('edit')
+
   return (
     <div className="bg-white shadow-md rounded-lg p-6 md:p-8">
       <h1 className="text-3xl font-bold text-gray-900 mb-4">
@@ -72,19 +79,73 @@ export function CampaignForm({
             htmlFor="description"
             className="block text-sm font-medium text-gray-700 mb-1"
           >
-            Description
+            Description{' '}
+            <span className="text-xs text-gray-500">(Supports Markdown)</span>
           </label>
-          <textarea
-            id="description"
-            name="description"
-            value={formData.description}
-            maxLength={500}
-            onChange={onChange}
-            required
-            rows={5}
-            className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-            placeholder="Describe your campaign in detail"
-          />
+
+          <Tabs
+            value={activeTab}
+            onValueChange={setActiveTab}
+            className="w-full"
+          >
+            <TabsList className="grid grid-cols-2 mb-2">
+              <TabsTrigger value="edit" className="flex items-center gap-1">
+                <Pencil className="h-4 w-4" />
+                <span>Edit</span>
+              </TabsTrigger>
+              <TabsTrigger value="preview" className="flex items-center gap-1">
+                <Eye className="h-4 w-4" />
+                <span>Preview</span>
+              </TabsTrigger>
+            </TabsList>
+
+            <TabsContent value="edit" className="mt-0">
+              <textarea
+                id="description"
+                name="description"
+                value={formData.description}
+                maxLength={2000}
+                onChange={onChange}
+                required
+                rows={8}
+                className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                placeholder="Describe your campaign in detail using Markdown"
+              />
+              <div className="mt-2 text-xs text-gray-500">
+                <p>Markdown tips:</p>
+                <ul className="list-disc pl-5 mt-1 space-y-1">
+                  <li>
+                    <code># Heading 1</code>, <code>## Heading 2</code> for
+                    headings
+                  </li>
+                  <li>
+                    <code>**bold**</code> for <strong>bold text</strong>
+                  </li>
+                  <li>
+                    <code>*italic*</code> for <em>italic text</em>
+                  </li>
+                  <li>
+                    <code>[Link text](https://example.com)</code> for links
+                  </li>
+                  <li>
+                    <code>- Item</code> for bullet lists
+                  </li>
+                </ul>
+              </div>
+            </TabsContent>
+
+            <TabsContent value="preview" className="mt-0">
+              <div className="prose prose-blue max-w-none border border-gray-300 rounded-md p-4 min-h-[12rem] bg-gray-50">
+                {formData.description ? (
+                  <ReactMarkdown>{formData.description}</ReactMarkdown>
+                ) : (
+                  <p className="text-gray-400 italic">
+                    Preview will appear here...
+                  </p>
+                )}
+              </div>
+            </TabsContent>
+          </Tabs>
         </div>
 
         <div>

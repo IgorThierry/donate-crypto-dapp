@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
+import ReactMarkdown from 'react-markdown'
 import {
   ArrowLeft,
   Calendar,
@@ -33,7 +34,7 @@ import {
   TooltipTrigger,
 } from '@/components/ui/tooltip'
 import { toast } from 'react-toastify'
-import { Campaign } from '@/_types/contract'
+import type { Campaign } from '@/_types/contract'
 import { Web3Provider } from '@/services/Web3Provider'
 import { getErrorMessage } from '@/utils/getErrorMessage'
 import { CampaignCreatedAlert } from '@/components/campaign-created-alert'
@@ -288,11 +289,11 @@ export default function CampaignDetailsPage() {
             {/* Campaign content tabs */}
             <Card>
               <CardHeader>
-                <CardTitle>About</CardTitle>
+                <CardTitle>Description:</CardTitle>
               </CardHeader>
               <CardContent>
-                <div className="prose max-w-none">
-                  <p className="text-lg mb-4">{campaign?.description}</p>
+                <div className="prose prose-blue dark:prose-invert max-w-none">
+                  <ReactMarkdown>{campaign?.description || ''}</ReactMarkdown>
                 </div>
               </CardContent>
             </Card>
@@ -450,9 +451,10 @@ export default function CampaignDetailsPage() {
               </CardHeader>
               <CardContent>
                 <ol className="space-y-4 list-decimal list-inside">
-                  <li>Choose the amount you want to donate</li>
                   <li>Connect your cryptocurrency wallet</li>
-                  <li>Confirm the transaction</li>
+                  <li>Click on Donate button</li>
+                  <li>Choose the amount you want to donate</li>
+                  <li>Confirm the transaction on MetaMask</li>
                 </ol>
               </CardContent>
             </Card>
