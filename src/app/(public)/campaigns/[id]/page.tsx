@@ -43,7 +43,7 @@ import { WithdrawButton } from '@/components/withdraw-button'
 import { useWallet } from '@/contexts/wallet-context'
 
 export default function CampaignDetailsPage() {
-  const { account } = useWallet()
+  const { account, connectWallet } = useWallet()
   const params = useParams()
   const campaignId = params.id as string
   const [isLoading, setIsLoading] = useState(true)
@@ -92,6 +92,8 @@ export default function CampaignDetailsPage() {
   const handleDonate = async () => {
     try {
       setIsDonating(true)
+
+      await connectWallet()
 
       const provider = Web3Provider.getInstance(window.ethereum)
       const { transactionHash } = await provider.donate(
