@@ -105,7 +105,14 @@ export function LandingPage() {
             </Link>
           </nav>
           <div className="flex items-center gap-4">
-            <Button size="sm">Launch Dapp</Button>
+            <Link href="/dashboard">
+              <Button
+                size="lg"
+                className="bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-600 hover:to-teal-700"
+              >
+                Launch DApp
+              </Button>
+            </Link>
           </div>
         </div>
       </header>
@@ -125,15 +132,19 @@ export function LandingPage() {
                   </p>
                 </div>
                 <div className="flex flex-col gap-2 min-[400px]:flex-row">
-                  <Button
-                    size="lg"
-                    className="bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-600 hover:to-teal-700"
-                  >
-                    Criar Campanha <ArrowRight className="ml-2 h-4 w-4" />
-                  </Button>
-                  <Button size="lg" variant="outline">
-                    Explorar Campanhas
-                  </Button>
+                  <Link href="/dashboard">
+                    <Button
+                      size="lg"
+                      className="bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-600 hover:to-teal-700"
+                    >
+                      Criar Campanha <ArrowRight className="ml-2 h-4 w-4" />
+                    </Button>
+                  </Link>
+                  <Link href="/dashboard">
+                    <Button size="lg" variant="outline">
+                      Explorar Campanhas
+                    </Button>
+                  </Link>
                 </div>
                 <div className="flex items-center gap-4 text-sm text-muted-foreground">
                   <div className="flex items-center gap-1">
@@ -424,10 +435,11 @@ export function LandingPage() {
                   </li>
                 </ul>
                 <div className="flex flex-col gap-2 min-[400px]:flex-row">
-                  <Button className="bg-emerald-500 hover:bg-emerald-600">
-                    Start a Campaign
-                  </Button>
-                  <Button variant="outline">Compare to Other Platforms</Button>
+                  <Link href="/dashbaord">
+                    <Button className="bg-emerald-500 hover:bg-emerald-600">
+                      Start a Campaign
+                    </Button>
+                  </Link>
                 </div>
               </div>
               <div className="flex items-center justify-center">
@@ -558,15 +570,19 @@ export function LandingPage() {
                 </p>
               </div>
               <div className="flex flex-col gap-2 min-[400px]:flex-row">
-                <Button
-                  size="lg"
-                  className="bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-600 hover:to-teal-700"
-                >
-                  Criar Campanha <ArrowRight className="ml-2 h-4 w-4" />
-                </Button>
-                <Button size="lg" variant="outline">
-                  Explorar Campanhas
-                </Button>
+                <Link href="/dashbaord">
+                  <Button
+                    size="lg"
+                    className="bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-600 hover:to-teal-700"
+                  >
+                    Criar Campanha <ArrowRight className="ml-2 h-4 w-4" />
+                  </Button>
+                </Link>
+                <Link href="/dashbaord">
+                  <Button size="lg" variant="outline">
+                    Explorar Campanhas
+                  </Button>
+                </Link>
               </div>
             </div>
           </div>
@@ -616,32 +632,36 @@ export function LandingPage() {
               <ul className="space-y-2">
                 <li>
                   <Link
-                    href="#"
+                    href="how-it-works"
                     className="text-sm text-muted-foreground hover:text-foreground"
+                    onClick={handleSmoothScroll}
                   >
                     How it Works
                   </Link>
                 </li>
                 <li>
                   <Link
-                    href="#"
+                    href="#features"
                     className="text-sm text-muted-foreground hover:text-foreground"
+                    onClick={handleSmoothScroll}
                   >
                     Features
                   </Link>
                 </li>
                 <li>
                   <Link
-                    href="#"
+                    href="#fee"
                     className="text-sm text-muted-foreground hover:text-foreground"
+                    onClick={handleSmoothScroll}
                   >
-                    Pricing
+                    Fees
                   </Link>
                 </li>
                 <li>
                   <Link
-                    href="#"
+                    href="#faq"
                     className="text-sm text-muted-foreground hover:text-foreground"
+                    onClick={handleSmoothScroll}
                   >
                     FAQ
                   </Link>
@@ -653,7 +673,7 @@ export function LandingPage() {
               <ul className="space-y-2">
                 <li>
                   <Link
-                    href="#"
+                    href="/about"
                     className="text-sm text-muted-foreground hover:text-foreground"
                   >
                     About Us
@@ -665,14 +685,6 @@ export function LandingPage() {
                     className="text-sm text-muted-foreground hover:text-foreground"
                   >
                     Blog
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    href="#"
-                    className="text-sm text-muted-foreground hover:text-foreground"
-                  >
-                    Careers
                   </Link>
                 </li>
                 <li>
