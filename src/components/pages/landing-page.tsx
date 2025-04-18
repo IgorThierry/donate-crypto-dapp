@@ -24,6 +24,16 @@ export function LandingPage() {
   const [scrollY, setScrollY] = useState(0)
   const headerRef = useRef(null)
 
+  const handleSmoothScroll = (event: React.MouseEvent<HTMLAnchorElement>) => {
+    event.preventDefault()
+    const targetId = event.currentTarget.getAttribute('href')?.slice(1)
+    const targetElement = document.getElementById(targetId || '')
+
+    if (targetElement) {
+      targetElement.scrollIntoView({ behavior: 'smooth' })
+    }
+  }
+
   // Throttle scroll event for better performance
   useEffect(() => {
     let ticking = false
@@ -68,24 +78,28 @@ export function LandingPage() {
             <Link
               href="#features"
               className="text-sm font-medium hover:text-primary"
+              onClick={handleSmoothScroll}
             >
               Recursos
             </Link>
             <Link
               href="#how-it-works"
               className="text-sm font-medium hover:text-primary"
+              onClick={handleSmoothScroll}
             >
               Como Funciona
             </Link>
             <Link
               href="#benefits"
               className="text-sm font-medium hover:text-primary"
+              onClick={handleSmoothScroll}
             >
               Benefícios
             </Link>
             <Link
               href="#faq"
               className="text-sm font-medium hover:text-primary"
+              onClick={handleSmoothScroll}
             >
               FAQ
             </Link>
@@ -363,7 +377,7 @@ export function LandingPage() {
               <div className="flex items-center justify-center">
                 <div className="relative h-[350px] w-[350px] md:h-[450px] md:w-[450px]">
                   <Image
-                    src="/favicon.png"
+                    src="/logo-transparent.png"
                     alt="Blockchain Benefits"
                     fill
                     className="object-contain"
