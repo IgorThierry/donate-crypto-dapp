@@ -66,6 +66,15 @@ export default function CampaignDetailsPage() {
     return campaign.author.toLocaleUpperCase() === account.toLocaleUpperCase()
   }, [campaign, account])
 
+  const goalReachedPercentage = useMemo(() => {
+    const goal = Number(campaign?.goal || '0')
+    const balance = Number(campaign?.balance || '0')
+    const goalReachedPercentage =
+      goal > 0 ? Math.min((balance / goal) * 100, 100) : 100
+
+    return goalReachedPercentage
+  }, [campaign])
+
   const fetchCampaignData = useCallback(async () => {
     try {
       setIsLoading(true)
@@ -318,6 +327,38 @@ export default function CampaignDetailsPage() {
                   </div>
 
                   <Separator />
+
+                  {Number(campaign?.goal || '0') > 0 && (
+                    <>
+                      <div>
+                        <h3 className="text-sm font-medium text-muted-foreground">
+                          Goal
+                        </h3>
+                        <p className="text-3xl font-bold">
+                          {campaign?.goal} POL
+                        </p>
+                      </div>
+
+                      <div>
+                        <h3 className="text-sm font-medium text-muted-foreground">
+                          Progress
+                        </h3>
+                        <div className="w-full bg-gray-200 rounded-full h-4">
+                          <div
+                            className="bg-blue-600 h-4 rounded-full"
+                            style={{
+                              width: `${goalReachedPercentage}%`,
+                            }}
+                          ></div>
+                        </div>
+                        <p className="text-sm text-muted-foreground mt-1">
+                          {goalReachedPercentage.toFixed(2)}% achieved
+                        </p>
+                      </div>
+
+                      <Separator />
+                    </>
+                  )}
 
                   <div className="grid grid-cols-2 gap-4">
                     <div>

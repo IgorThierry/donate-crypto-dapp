@@ -24,6 +24,7 @@ const initialFormData = {
   description: '',
   imageUrl: '',
   videoUrl: '',
+  goal: '0',
 }
 
 export default function CreateCampaign() {

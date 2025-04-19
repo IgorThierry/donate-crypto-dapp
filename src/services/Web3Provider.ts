@@ -11,6 +11,7 @@ export type AddCampaignParams = {
   description: string
   videoUrl: string
   imageUrl: string
+  goal: string
 }
 
 export class Web3Provider {
@@ -68,12 +69,14 @@ export class Web3Provider {
   async addCampaign(campaign: AddCampaignParams) {
     await this.login()
     const contract = this.getContract()
+    const parsedGoal = this.web3.utils.toWei(campaign.goal, 'ether')
     return contract.methods
       .addCampaign(
         campaign.title,
         campaign.description,
         campaign.videoUrl,
         campaign.imageUrl,
+        parsedGoal,
       )
       .send()
   }
@@ -83,40 +86,56 @@ export class Web3Provider {
     return contract.methods.nextId().call()
   }
 
-  async getRecentCampaigns(): Promise<Campaign[]> {
+  async getRecentCampaigns(
+    page = 1,
+  ): Promise<{ data: Campaign[]; totalPages: number }> {
     const contract = this.getContract()
-    const data: CampaignRaw[] = await contract.methods
-      .getRecentCampaigns()
-      .call()
-    return data.map((item) => ({
+    const response = await contract.methods.getRecentCampaigns(page).call()
+
+    const totalPages = response[1]
+    const dataRaw = response[0]
+
+    const data: Campaign[] = dataRaw.map((item) => ({
       author: item.author,
       title: item.title,
       description: item.description,
       videoUrl: item.videoUrl,
       imageUrl: item.imageUrl,
       balance: this.web3.utils.fromWei(item.balance.toString(), 'ether'),
+      goal: this.web3.utils.fromWei(item.goal.toString(), 'ether'),
       supporters: Number(item.supporters),
       active: item.active,
       createdAt: new Date(Number(item.createdAt) * 1000).toLocaleString(),
       id: Number(item.id),
     }))
+
+    return { data, totalPages: Number(totalPages) }
   }
 
-  async getUserCampaigns(): Promise<Campaign[]> {
+  async getUserCampaigns(
+    page = 1,
+  ): Promise<{ data: Campaign[]; totalPages: number }> {
     const contract = this.getContract()
-    const data: CampaignRaw[] = await contract.methods.getUserCampaigns().call()
-    return data.map((item) => ({
+    const response = await contract.methods.getUserCampaigns(page).call()
+
+    const totalPages = response[1]
+    const dataRaw = response[0]
+
+    const data: Campaign[] = dataRaw.map((item) => ({
       author: item.author,
       title: item.title,
       description: item.description,
       videoUrl: item.videoUrl,
       imageUrl: item.imageUrl,
       balance: this.web3.utils.fromWei(item.balance.toString(), 'ether'),
+      goal: this.web3.utils.fromWei(item.goal.toString(), 'ether'),
       supporters: Number(item.supporters),
       active: item.active,
       createdAt: new Date(Number(item.createdAt) * 1000).toLocaleString(),
       id: Number(item.id),
     }))
+
+    return { data, totalPages: Number(totalPages) }
   }
 
   async campaigns(id: number | string): Promise<Campaign> {
@@ -129,6 +148,7 @@ export class Web3Provider {
       videoUrl: data.videoUrl,
       imageUrl: data.imageUrl,
       balance: this.web3.utils.fromWei(data.balance.toString(), 'ether'),
+      goal: this.web3.utils.fromWei(data.goal.toString(), 'ether'),
       supporters: Number(data.supporters),
       active: data.active,
       createdAt: new Date(Number(data.createdAt) * 1000).toLocaleString(),
@@ -139,6 +159,7 @@ export class Web3Provider {
   async editCampaign(id: number | string, campaign: AddCampaignParams) {
     await this.login()
     const contract = this.getContract()
+    const parsedGoal = this.web3.utils.toWei(campaign.goal, 'ether')
     return contract.methods
       .editCampaign(
         id,
@@ -146,6 +167,7 @@ export class Web3Provider {
         campaign.description,
         campaign.videoUrl,
         campaign.imageUrl,
+        parsedGoal,
       )
       .send()
   }

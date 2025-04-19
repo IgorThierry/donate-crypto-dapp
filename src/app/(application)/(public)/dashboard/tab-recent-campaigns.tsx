@@ -33,13 +33,14 @@ export function TabRecentCampaings() {
       setError(null)
 
       const provider = Web3Provider.getInstance(window.ethereum)
-      const data = await provider.getRecentCampaigns()
+      const { data } = await provider.getRecentCampaigns()
 
       setCampaigns(data)
     } catch (error) {
       const errorMessage = getErrorMessage(error)
       toast.error(errorMessage)
       setError(errorMessage)
+      console.error('Error loading campaigns:', error)
     } finally {
       setIsLoading(false)
     }
@@ -79,7 +80,7 @@ export function TabRecentCampaings() {
       {!isLoading && !error && campaigns.length > 0 && (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {campaigns.map((campaign) => {
-            const goal = Number(campaign.goal || '0')
+            const goal = Number(campaign.goal)
             const balance = Number(campaign.balance)
             const goalReachedPercentage =
               goal > 0 ? Math.min((balance / goal) * 100, 100) : 100
@@ -143,7 +144,7 @@ export function TabRecentCampaings() {
                     </Badge>
                   </div>
                 </CardContent>
-                <CardFooter className="flex justify-between">
+                <CardFooter className="flex justify-between mt-auto">
                   <Link href={`/campaigns/${campaign.id}`}>
                     <Button variant="outline">View Details</Button>
                   </Link>

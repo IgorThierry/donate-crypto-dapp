@@ -46,7 +46,7 @@ export function TabUserCampaigns() {
       setError(null)
 
       const provider = new Web3Provider(window.ethereum)
-      const data = await provider.getUserCampaigns()
+      const { data } = await provider.getUserCampaigns()
 
       setCampaigns(data)
     } catch (error) {
