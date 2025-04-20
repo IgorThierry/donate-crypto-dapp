@@ -14,6 +14,8 @@ export type AddCampaignParams = {
   goal: string
 }
 
+export type EditCampaignParams = Omit<AddCampaignParams, 'goal'>
+
 export class Web3Provider {
   private static instance: Web3Provider | null = null
   private web3: Web3
@@ -156,10 +158,10 @@ export class Web3Provider {
     }
   }
 
-  async editCampaign(id: number | string, campaign: AddCampaignParams) {
+  async editCampaign(id: number | string, campaign: EditCampaignParams) {
     await this.login()
     const contract = this.getContract()
-    const parsedGoal = this.web3.utils.toWei(campaign.goal, 'ether')
+
     return contract.methods
       .editCampaign(
         id,
@@ -167,7 +169,6 @@ export class Web3Provider {
         campaign.description,
         campaign.videoUrl,
         campaign.imageUrl,
-        parsedGoal,
       )
       .send()
   }

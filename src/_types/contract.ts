@@ -48,7 +48,6 @@ export interface MyContract {
       description: string,
       videoUrl: string,
       imageUrl: string,
-      goal: string,
     ): {
       send(): Promise<TransactionReceipt>
     }

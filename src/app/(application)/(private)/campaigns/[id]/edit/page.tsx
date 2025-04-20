@@ -24,6 +24,7 @@ const initialFormData = {
   description: '',
   imageUrl: '',
   videoUrl: '',
+  goal: '',
 }
 
 export default function EditCampaign() {
@@ -127,6 +128,7 @@ export default function EditCampaign() {
           description,
           imageUrl: imageUrl || '',
           videoUrl: videoUrl || '',
+          goal: '',
         })
       } catch (error) {
         const errorMessage = getErrorMessage(error)
