@@ -10,6 +10,7 @@ export type CampaignRaw = {
   videoUrl: string
   imageUrl: string
   balance: bigint // uint256 pode ser representado por bigint
+  goal: bigint
   supporters: bigint // idem
   active: boolean
   createdAt: bigint // timestamps geralmente são números grandes
@@ -23,6 +24,7 @@ export type Campaign = {
   videoUrl: string
   imageUrl: string
   balance: string // em wei
+  goal: string // em wei
   supporters: number // número de apoiadores
   active: boolean
   createdAt: string // timestamp
@@ -36,6 +38,7 @@ export interface MyContract {
       description: string,
       videoUrl: string,
       imageUrl: string,
+      goal: string,
     ): {
       send(): Promise<TransactionReceipt>
     }
@@ -54,11 +57,11 @@ export interface MyContract {
     feesBalance(): {
       call(): Promise<bigint>
     }
-    getRecentCampaigns(): {
-      call(): Promise<CampaignRaw[]>
+    getRecentCampaigns(page: number): {
+      call(): Promise<[CampaignRaw[], bigint]>
     }
-    getUserCampaigns(): {
-      call(): Promise<CampaignRaw[]>
+    getUserCampaigns(page: number): {
+      call(): Promise<[CampaignRaw[], bigint]>
     }
     campaigns(id: number | string): {
       call(): Promise<CampaignRaw>

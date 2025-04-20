@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
+import ReactMarkdown from 'react-markdown'
 import {
   ArrowLeft,
   Calendar,
@@ -33,7 +34,7 @@ import {
   TooltipTrigger,
 } from '@/components/ui/tooltip'
 import { toast } from 'react-toastify'
-import { Campaign } from '@/_types/contract'
+import type { Campaign } from '@/_types/contract'
 import { Web3Provider } from '@/services/Web3Provider'
 import { getErrorMessage } from '@/utils/getErrorMessage'
 import { CampaignCreatedAlert } from '@/components/campaign-created-alert'
@@ -43,7 +44,7 @@ import { WithdrawButton } from '@/components/withdraw-button'
 import { useWallet } from '@/contexts/wallet-context'
 
 export default function CampaignDetailsPage() {
-  const { account } = useWallet()
+  const { account, connectWallet } = useWallet()
   const params = useParams()
   const campaignId = params.id as string
   const [isLoading, setIsLoading] = useState(true)
@@ -64,6 +65,15 @@ export default function CampaignDetailsPage() {
     if (!campaign || !account) return false
     return campaign.author.toLocaleUpperCase() === account.toLocaleUpperCase()
   }, [campaign, account])
+
+  const goalReachedPercentage = useMemo(() => {
+    const goal = Number(campaign?.goal || '0')
+    const balance = Number(campaign?.balance || '0')
+    const goalReachedPercentage =
+      goal > 0 ? Math.min((balance / goal) * 100, 100) : 100
+
+    return goalReachedPercentage
+  }, [campaign])
 
   const fetchCampaignData = useCallback(async () => {
     try {
@@ -92,6 +102,8 @@ export default function CampaignDetailsPage() {
   const handleDonate = async () => {
     try {
       setIsDonating(true)
+
+      await connectWallet()
 
       const provider = Web3Provider.getInstance(window.ethereum)
       const { transactionHash } = await provider.donate(
@@ -286,11 +298,11 @@ export default function CampaignDetailsPage() {
             {/* Campaign content tabs */}
             <Card>
               <CardHeader>
-                <CardTitle>About</CardTitle>
+                <CardTitle>Description:</CardTitle>
               </CardHeader>
               <CardContent>
-                <div className="prose max-w-none">
-                  <p className="text-lg mb-4">{campaign?.description}</p>
+                <div className="prose prose-blue dark:prose-invert max-w-none">
+                  <ReactMarkdown>{campaign?.description || ''}</ReactMarkdown>
                 </div>
               </CardContent>
             </Card>
@@ -315,6 +327,38 @@ export default function CampaignDetailsPage() {
                   </div>
 
                   <Separator />
+
+                  {Number(campaign?.goal || '0') > 0 && (
+                    <>
+                      <div>
+                        <h3 className="text-sm font-medium text-muted-foreground">
+                          Goal
+                        </h3>
+                        <p className="text-3xl font-bold">
+                          {campaign?.goal} POL
+                        </p>
+                      </div>
+
+                      <div>
+                        <h3 className="text-sm font-medium text-muted-foreground">
+                          Progress
+                        </h3>
+                        <div className="w-full bg-gray-200 rounded-full h-4">
+                          <div
+                            className="bg-blue-600 h-4 rounded-full"
+                            style={{
+                              width: `${goalReachedPercentage}%`,
+                            }}
+                          ></div>
+                        </div>
+                        <p className="text-sm text-muted-foreground mt-1">
+                          {goalReachedPercentage.toFixed(2)}% achieved
+                        </p>
+                      </div>
+
+                      <Separator />
+                    </>
+                  )}
 
                   <div className="grid grid-cols-2 gap-4">
                     <div>
@@ -448,9 +492,10 @@ export default function CampaignDetailsPage() {
               </CardHeader>
               <CardContent>
                 <ol className="space-y-4 list-decimal list-inside">
-                  <li>Choose the amount you want to donate</li>
                   <li>Connect your cryptocurrency wallet</li>
-                  <li>Confirm the transaction</li>
+                  <li>Click on Donate button</li>
+                  <li>Choose the amount you want to donate</li>
+                  <li>Confirm the transaction on MetaMask</li>
                 </ol>
               </CardContent>
             </Card>

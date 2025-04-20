@@ -5,6 +5,8 @@ import {
   AccordionTrigger,
 } from '@/components/ui/accordion'
 
+import { questions } from '@/data/faq'
+
 export default function AboutPage() {
   return (
     <div className="pt-16 min-h-screen bg-gray-50">
@@ -65,69 +67,12 @@ export default function AboutPage() {
             Frequently Asked Questions
           </h2>
           <Accordion type="single" collapsible className="w-full">
-            <AccordionItem value="item-1">
-              <AccordionTrigger>
-                What cryptocurrencies do you support?
-              </AccordionTrigger>
-              <AccordionContent>
-                Currently, we support Ethereum (ETH) and ERC-20 tokens. We plan
-                to expand to other blockchain networks in the future.
-              </AccordionContent>
-            </AccordionItem>
-
-            <AccordionItem value="item-2">
-              <AccordionTrigger>How do I create a campaign?</AccordionTrigger>
-              <AccordionContent>
-                To create a campaign, connect your wallet, navigate to the
-                dashboard, and click on &quot;Create Campaign.&quot; Fill in the required
-                details such as title, description, and funding goal, then
-                submit your campaign for review.
-              </AccordionContent>
-            </AccordionItem>
-
-            <AccordionItem value="item-3">
-              <AccordionTrigger>
-                Are there any fees for using the platform?
-              </AccordionTrigger>
-              <AccordionContent>
-                We charge a minimal 2% fee on donations to maintain the platform
-                and cover operational costs. This is significantly lower than
-                traditional donation platforms. You&apos;ll also need to pay network
-                gas fees for transactions.
-              </AccordionContent>
-            </AccordionItem>
-
-            <AccordionItem value="item-4">
-              <AccordionTrigger>How secure is the platform?</AccordionTrigger>
-              <AccordionContent>
-                Our platform is built on blockchain technology, which provides
-                inherent security through its decentralized nature. Smart
-                contracts are audited by third-party security firms, and we
-                never have access to your private keys.
-              </AccordionContent>
-            </AccordionItem>
-
-            <AccordionItem value="item-5">
-              <AccordionTrigger>Can I donate anonymously?</AccordionTrigger>
-              <AccordionContent>
-                Yes, blockchain transactions provide a level of pseudonymity.
-                While transactions are recorded on the public ledger, they are
-                not directly linked to your personal identity unless you choose
-                to reveal it.
-              </AccordionContent>
-            </AccordionItem>
-
-            <AccordionItem value="item-6">
-              <AccordionTrigger>
-                How can I withdraw funds from my campaign?
-              </AccordionTrigger>
-              <AccordionContent>
-                Campaign creators can withdraw funds directly to their wallet by
-                using the withdrawal function on the campaign dashboard.
-                Withdrawals are processed immediately and are subject to
-                blockchain confirmation times.
-              </AccordionContent>
-            </AccordionItem>
+            {questions.map(({ question, answer }, index) => (
+              <AccordionItem value={`item-${index + 1}`} key={index}>
+                <AccordionTrigger>{question}</AccordionTrigger>
+                <AccordionContent>{answer}</AccordionContent>
+              </AccordionItem>
+            ))}
           </Accordion>
         </section>
       </div>

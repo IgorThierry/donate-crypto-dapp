@@ -3,10 +3,6 @@ import { Geist, Geist_Mono } from 'next/font/google'
 import 'react-toastify/dist/ReactToastify.css'
 import './globals.css'
 
-import { Navigation } from '@/components/navigation'
-import { WalletProvider } from '@/contexts/wallet-context'
-import { ToastContainer } from 'react-toastify'
-
 const geistSans = Geist({
   variable: '--font-geist-sans',
   subsets: ['latin'],
@@ -35,11 +31,7 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <WalletProvider>
-          <Navigation />
-          <main>{children}</main>
-        </WalletProvider>
-        <ToastContainer />
+        <>{children}</>
       </body>
     </html>
   )
