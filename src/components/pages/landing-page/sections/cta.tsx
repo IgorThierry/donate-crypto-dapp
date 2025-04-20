@@ -17,7 +17,7 @@ export function CtaSection() {
             </p>
           </div>
           <div className="flex flex-col gap-2 min-[400px]:flex-row">
-            <Link href="/dashbaord">
+            <Link href="/dashboard">
               <Button
                 size="lg"
                 className="bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-600 hover:to-teal-700"
@@ -25,7 +25,7 @@ export function CtaSection() {
                 Criar Campanha <ArrowRight className="ml-2 h-4 w-4" />
               </Button>
             </Link>
-            <Link href="/dashbaord">
+            <Link href="/dashboard">
               <Button size="lg" variant="outline">
                 Explorar Campanhas
               </Button>
