@@ -18,7 +18,7 @@ type DonateButtonProps = {
   isDialogOpen: boolean
   isDisabled?: boolean
   setIsDialogOpen: (open: boolean) => void
-  handleDonate: () => void
+  handleDonate: (donationAmount: string) => void
 }
 
 export function DonateButton({
@@ -28,7 +28,7 @@ export function DonateButton({
   setIsDialogOpen,
   handleDonate,
 }: DonateButtonProps) {
-  const [donationAmount, setDonationAmount] = useState('0.001')
+  const [donationAmount, setDonationAmount] = useState('0.00001')
 
   return (
     <Dialog
@@ -36,11 +36,14 @@ export function DonateButton({
       onOpenChange={(open) => {
         if (!isDonating) {
           setIsDialogOpen(open)
+          setDonationAmount('0.00001')
         }
       }}
     >
       <DialogTrigger asChild>
-        <Button className="w-full" disabled={isDisabled}>Donate Now</Button>
+        <Button className="w-full" disabled={isDisabled}>
+          Donate Now
+        </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
@@ -60,13 +63,16 @@ export function DonateButton({
               value={donationAmount}
               onChange={(e) => setDonationAmount(e.target.value)}
               className="col-span-3"
-              step="0.001"
-              min="0.00001"
+              step="0.00001"
             />
           </div>
         </div>
         <DialogFooter>
-          <Button type="submit" onClick={handleDonate} disabled={isDonating}>
+          <Button
+            type="submit"
+            onClick={() => handleDonate(donationAmount)}
+            disabled={isDonating}
+          >
             {isDonating ? (
               <Loader2 className="h-4 w-4 animate-spin" />
             ) : (

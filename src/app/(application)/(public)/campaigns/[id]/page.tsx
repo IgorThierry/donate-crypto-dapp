@@ -51,8 +51,6 @@ export default function CampaignDetailsPage() {
   const [errorOnLoad, setErrorOnLoad] = useState<string | null>(null)
   const [campaign, setCampaign] = useState<Campaign | null>(null)
 
-  const [donationAmount, setDonationAmount] = useState('0.001')
-
   // donate dialog
   const [isDialogOpen, setIsDialogOpen] = useState(false)
   const [isDonating, setIsDonating] = useState(false)
@@ -99,7 +97,7 @@ export default function CampaignDetailsPage() {
     }
   }, [campaignId, setIsLoading, setErrorOnLoad, setCampaign])
 
-  const handleDonate = async () => {
+  const handleDonate = async (donationAmount: string) => {
     try {
       setIsDonating(true)
 
@@ -121,7 +119,7 @@ export default function CampaignDetailsPage() {
           autoClose: false,
         },
       )
-      setDonationAmount('0.001')
+
       fetchCampaignData()
     } catch (error) {
       const errorMessage = getErrorMessage(error)
